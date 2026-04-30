@@ -294,12 +294,22 @@ if (! function_exists('cleanup_unused_editor_uploads')) {
             return;
         }
 
-        $model = model(\App\Models\SitePageModel::class);
-        $rows = $model->select('body')->findAll();
+        // Kumpulkan semua filename gambar yang masih direferensikan dari SEMUA model
+        // yang menyimpan konten editor. Jika ada model baru, tambahkan di sini.
         $used = [];
-        foreach ($rows as $row) {
-            $body = (string) ($row['body'] ?? '');
-            foreach (extract_editor_upload_filenames($body) as $name => $_) {
+
+        // 1. SitePageModel → kolom body (Struktur, Pejabat, Visi Misi, dst.)
+        $siteRows = model(\App\Models\SitePageModel::class)->select('body')->findAll();
+        foreach ($siteRows as $row) {
+            foreach (extract_editor_upload_filenames((string) ($row['body'] ?? '')) as $name => $_) {
+                $used[$name] = true;
+            }
+        }
+
+        // 2. NewsArticleModel → kolom content (Berita)
+        $newsRows = model(\App\Models\NewsArticleModel::class)->select('content')->findAll();
+        foreach ($newsRows as $row) {
+            foreach (extract_editor_upload_filenames((string) ($row['content'] ?? '')) as $name => $_) {
                 $used[$name] = true;
             }
         }
