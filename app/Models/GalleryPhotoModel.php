@@ -18,6 +18,9 @@ class GalleryPhotoModel extends Model
     protected $allowedFields    = [
         'title',
         'image',
+        'image_2',
+        'image_3',
+        'image_4',
     ];
 
     protected $useTimestamps = true;
@@ -59,11 +62,22 @@ class GalleryPhotoModel extends Model
             $dateKey = $m[1];
         }
 
+        // Kumpulkan semua slot gambar yang terisi
+        $images = [];
+        foreach (['image', 'image_2', 'image_3', 'image_4'] as $col) {
+            $val = trim((string) ($row[$col] ?? ''));
+            if ($val !== '') {
+                $images[] = self::publicImageUrl($val);
+            }
+        }
+
         return [
-            'id'    => (int) $row['id'],
-            'image' => self::publicImageUrl((string) ($row['image'] ?? '')),
-            'title' => (string) ($row['title'] ?? ''),
-            'date'  => NewsArticleModel::formatIndonesianDate($dateKey),
+            'id'       => (int) $row['id'],
+            'image'    => $images[0] ?? '',          // thumbnail utama
+            'images'   => $images,                   // semua foto
+            'title'    => (string) ($row['title'] ?? ''),
+            'date'     => NewsArticleModel::formatIndonesianDate($dateKey),
+            'count'    => count($images),
         ];
     }
 

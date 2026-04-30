@@ -89,12 +89,10 @@
 
 /* Overlay untuk slide berita — lebih gelap di kiri */
 .hero-overlay-news {
-    background: linear-gradient(
-        to right,
-        rgba(10, 20, 60, 0.88) 0%,
-        rgba(10, 25, 70, 0.72) 55%,
-        rgba(0, 0, 0, 0.2) 100%
-    ) !important;
+    background: linear-gradient(to right,
+            rgba(10, 20, 60, 0.88) 0%,
+            rgba(10, 25, 70, 0.72) 55%,
+            rgba(0, 0, 0, 0.2) 100%) !important;
 }
 
 /* Judul berita */
@@ -922,13 +920,51 @@
     font-size: 0.95rem;
 }
 
-.photo-detail-image img {
+.photo-detail-image img,
+.photo-main-img {
     width: 100%;
     border-radius: 1rem;
     aspect-ratio: 16 / 10;
     object-fit: cover;
     border: 1px solid var(--color-gray-150);
+    transition: opacity 0.18s ease;
 }
+
+/* Thumbnail strip — grid 4 kolom */
+.photo-thumb-strip {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+}
+
+.photo-thumb-btn {
+    padding: 0;
+    border: 2.5px solid transparent;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    cursor: pointer;
+    background: none;
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+    aspect-ratio: 1 / 1;
+}
+
+.photo-thumb-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.photo-thumb-btn:hover {
+    border-color: var(--color-primary-400);
+    transform: translateY(-3px);
+}
+
+.photo-thumb-btn.active {
+    border-color: var(--color-primary-600);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
 
 .photo-detail-caption h2 {
     font-size: 1.55rem;
