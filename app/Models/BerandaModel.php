@@ -422,7 +422,7 @@ class BerandaModel
      *
      * @return array<int, array<string, int|string>>
      */
-    public function getNewsList(int $limit = 9): array
+    public function getNewsList(int $limit = 3): array
     {
         if ($this->isNewsArticlesTablePresent()) {
             return model(NewsArticleModel::class)->getPublishedForPublic($limit);
@@ -488,7 +488,7 @@ class BerandaModel
      *
      * @return array<int, array<string, int|string>>
      */
-    public function getGalleryPhotos(int $limit = 9): array
+    public function getGalleryPhotos(int $limit = 8): array
     {
         if ($this->isGalleryPhotosTablePresent()) {
             return model(GalleryPhotoModel::class)->getForPublic($limit);

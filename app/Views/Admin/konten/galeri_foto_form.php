@@ -48,15 +48,29 @@ if (is_array($errs) && $errs !== []) { ?>
 
             <div class="mb-4">
                 <label for="title" class="form-label fw-semibold">Judul / keterangan</label>
-                <input type="text" class="form-control form-control-lg rounded-3" id="title" name="title" required
+                <input type="text" class="form-control form-control-lg rounded-3" id="title" name="title"
+                    <?= $isEdit ? 'required' : '' ?>
                     maxlength="255" value="<?= esc(old('title', (string) ($p['title'] ?? ''))) ?>">
+                <?php if (! $isEdit) : ?>
+                    <div class="form-text">Opsional — jika dikosongkan, judul otomatis diambil dari nama file. Saat upload beberapa foto, judul yang sama diberi nomor urut (misal: <em>Kegiatan 2</em>, <em>Kegiatan 3</em>).</div>
+                <?php endif; ?>
             </div>
 
             <div class="mb-4">
                 <label for="gallery_image" class="form-label fw-semibold">File gambar</label>
-                <input type="file" class="form-control rounded-3" id="gallery_image" name="gallery_image" accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
-                    <?= $isEdit ? '' : 'required' ?>>
-                <div class="form-text">JPG, PNG, WebP, atau GIF. Maksimal 5MB.<?= $isEdit ? ' Kosongkan bila hanya mengubah judul.' : '' ?></div>
+                <?php if ($isEdit) : ?>
+                    <input type="file" class="form-control rounded-3" id="gallery_image" name="gallery_image"
+                        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif">
+                    <div class="form-text">JPG, PNG, WebP, atau GIF. Maksimal 5MB. Kosongkan bila hanya mengubah judul.</div>
+                <?php else : ?>
+                    <input type="file" class="form-control rounded-3" id="gallery_image" name="gallery_image[]"
+                        accept="image/jpeg,image/png,image/webp,image/gif,.jpg,.jpeg,.png,.webp,.gif"
+                        multiple required>
+                    <div class="form-text">
+                        <i class="bi bi-images me-1"></i>Bisa pilih <strong>lebih dari 1 gambar</strong> sekaligus.
+                        JPG, PNG, WebP, atau GIF. Maksimal <strong>5MB per file</strong>.
+                    </div>
+                <?php endif; ?>
                 <?php if ($isEdit && $currentImg !== '') : ?>
                     <input type="hidden" name="current_image" value="<?= esc($currentImg, 'attr') ?>">
                     <div class="mt-3 border rounded-3 p-2 d-inline-block bg-body-tertiary">
@@ -65,6 +79,7 @@ if (is_array($errs) && $errs !== []) { ?>
                     </div>
                 <?php endif; ?>
             </div>
+
 
             <div class="d-flex flex-wrap gap-2">
                 <button type="submit" class="btn btn-primary rounded-3 px-4">

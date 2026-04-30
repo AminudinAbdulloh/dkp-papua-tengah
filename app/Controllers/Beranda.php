@@ -41,8 +41,8 @@ class Beranda extends BaseController
         $data = [
             'heroBg' => $heroBg,
             'services' => $this->berandaModel->getServices(),
-            'newsList' => $this->berandaModel->getNewsList(),
-            'galleryPhotos' => $this->berandaModel->getGalleryPhotos(),
+            'newsList' => $this->berandaModel->getNewsList(3),
+            'galleryPhotos' => $this->berandaModel->getGalleryPhotos(8),
             'latestVideos' => $this->berandaModel->getLatestVideos(),
             'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
             'footerData' => $this->berandaModel->getPublicFooterData(),
@@ -130,7 +130,7 @@ class Beranda extends BaseController
 
     public function galeriFoto(): string
     {
-        $galleryPhotos = $this->berandaModel->getGalleryPhotos(12);
+        $galleryPhotos = $this->berandaModel->getGalleryPhotos(8);
         $pager = null;
         if (model(\App\Models\GalleryPhotoModel::class)->tableReady()) {
             $pager = model(\App\Models\GalleryPhotoModel::class)->pager;

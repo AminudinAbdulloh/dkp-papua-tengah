@@ -37,22 +37,63 @@ class KontenGaleriFoto extends BaseController
 
     public function store(): ResponseInterface
     {
-        if (! $this->validate($this->validationRules())) {
+        // Validasi hanya field title (gambar divalidasi per-file di bawah)
+        if (! $this->validate(['title' => 'permit_empty|max_length[255]'])) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $path = $this->resolveImageUpload(true, null);
-        if ($path === null) {
-            return redirect()->back()->withInput()->with('errors', ['gallery_image' => 'File gambar wajib diunggah (maks. 5MB, JPG/PNG/WebP/GIF).']);
+        $titleBase  = trim((string) $this->request->getPost('title'));
+        $files      = $this->request->getFileMultiple('gallery_image');
+        $model      = model(GalleryPhotoModel::class);
+
+        if (empty($files)) {
+            return redirect()->back()->withInput()->with('errors', ['gallery_image' => 'Pilih minimal satu file gambar.']);
         }
 
-        model(GalleryPhotoModel::class)->insert([
-            'title' => (string) $this->request->getPost('title'),
-            'image' => $path,
-        ]);
+        $saved  = 0;
+        $errors = [];
 
-        return redirect()->to(base_url('admin/konten/galeri-foto'))->with('message', 'Foto galeri berhasil ditambahkan.');
+        foreach ($files as $index => $file) {
+            if ($file === null || ! $file->isValid() || $file->hasMoved()) {
+                continue;
+            }
+
+            $path = $this->storeGalleryFile($file);
+            if ($path === null) {
+                $errors[] = 'File #' . ($index + 1) . ' (' . esc($file->getClientName()) . ') gagal disimpan — pastikan format JPG/PNG/WebP/GIF dan ukuran maks. 5MB.';
+                continue;
+            }
+
+            // Judul: gunakan titleBase jika diisi, fallback ke nama file tanpa ekstensi
+            $title = $titleBase !== ''
+                ? ($saved > 0 ? $titleBase . ' ' . ($saved + 1) : $titleBase)
+                : pathinfo($file->getClientName(), PATHINFO_FILENAME);
+
+            $model->insert([
+                'title' => $title,
+                'image' => $path,
+            ]);
+            $saved++;
+        }
+
+        if ($saved === 0) {
+            return redirect()->back()->withInput()->with('errors', array_merge(
+                ['gallery_image' => 'Tidak ada file yang berhasil diunggah.'],
+                $errors
+            ));
+        }
+
+        $msg = $saved === 1
+            ? 'Foto galeri berhasil ditambahkan.'
+            : $saved . ' foto galeri berhasil ditambahkan.';
+
+        if ($errors !== []) {
+            $msg .= ' ' . count($errors) . ' file gagal: ' . implode(' | ', $errors);
+        }
+
+        return redirect()->to(base_url('admin/konten/galeri-foto'))->with('message', $msg);
     }
+
 
     public function edit(int $id): ResponseInterface|string
     {
@@ -123,7 +164,7 @@ class KontenGaleriFoto extends BaseController
     private function validationRules(): array
     {
         return [
-            'title' => 'required|max_length[255]',
+            'title' => 'permit_empty|max_length[255]',
         ];
     }
 
