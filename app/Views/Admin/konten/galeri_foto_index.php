@@ -76,7 +76,7 @@
                                     <a class="btn btn-sm btn-outline-primary rounded-3"
                                         href="<?= base_url('admin/konten/galeri-foto/' . (int) $row['id'] . '/edit') ?>">Edit</a>
                                     <form method="post" action="<?= base_url('admin/konten/galeri-foto/' . (int) $row['id'] . '/hapus') ?>"
-                                        class="d-inline" onsubmit="return confirm('Hapus foto ini dari galeri?');">
+                                        class="d-inline" data-confirm="Hapus foto ini dari galeri?">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-sm btn-outline-danger rounded-3">Hapus</button>
                                     </form>

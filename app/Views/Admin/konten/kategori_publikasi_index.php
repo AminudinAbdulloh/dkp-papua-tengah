@@ -59,7 +59,7 @@
                                     <a class="btn btn-sm btn-outline-primary rounded-3"
                                         href="<?= base_url('admin/konten/kategori-publikasi/' . (int) $row['id'] . '/edit') ?>">Edit</a>
                                     <form method="post" action="<?= base_url('admin/konten/kategori-publikasi/' . (int) $row['id'] . '/hapus') ?>"
-                                        class="d-inline" onsubmit="return confirm('Hapus kategori ini? Dokumen yang terhubung tidak akan dihapus.');">
+                                        class="d-inline" data-confirm="Hapus kategori ini? Dokumen yang terhubung tidak akan dihapus.">
                                         <?= csrf_field() ?>
                                         <button type="submit" class="btn btn-sm btn-outline-danger rounded-3">Hapus</button>
                                     </form>

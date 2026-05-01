@@ -214,6 +214,7 @@
     <script src="<?= base_url('js/jquery.min.js') ?>"></script>
     <script src="<?= base_url('js/bootstrap.min.js') ?>"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
     (function () {
         // Sidebar dropdown toggle – works for both desktop and mobile
@@ -221,7 +222,7 @@
             var toggle = document.getElementById(toggleId);
             var list   = document.getElementById(listId);
             if (!toggle || !list) return;
-
+ 
             toggle.addEventListener('click', function () {
                 var isOpen = list.classList.contains('open');
                 list.classList.toggle('open', !isOpen);
@@ -230,9 +231,52 @@
                 toggle.setAttribute('aria-expanded', String(!isOpen));
             });
         }
-
+ 
         initDropdownToggle('ddToggleDokInfo',       'ddDokInfo');
         initDropdownToggle('ddToggleDokInfoMobile', 'ddDokInfoMobile');
+
+        // Global confirmation handler for SweetAlert2
+        window.confirmAction = function(options) {
+            const defaults = {
+                title: 'Apakah Anda yakin?',
+                text: 'Tindakan ini tidak dapat dibatalkan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1d4ed8', // primary color
+                cancelButtonColor: '#64748b',  // secondary color
+                confirmButtonText: 'Ya, Lanjutkan!',
+                cancelButtonText: 'Batal'
+            };
+            
+            const config = { ...defaults, ...options };
+            
+            return Swal.fire(config).then((result) => {
+                if (result.isConfirmed && typeof config.callback === 'function') {
+                    config.callback();
+                }
+            });
+        };
+
+        // Listen for form submissions with data-confirm attribute
+        document.addEventListener('submit', function(e) {
+            if (e.target && e.target.hasAttribute('data-confirm')) {
+                const form = e.target;
+                if (form.getAttribute('data-confirmed') === 'true') {
+                    return; // Allow form submission
+                }
+                
+                e.preventDefault();
+                
+                const message = form.getAttribute('data-confirm');
+                window.confirmAction({
+                    text: message,
+                    callback: function() {
+                        form.setAttribute('data-confirmed', 'true');
+                        form.submit();
+                    }
+                });
+            }
+        });
     })();
     </script>
 

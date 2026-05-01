@@ -50,7 +50,7 @@
                                             <i class="bi bi-pencil"></i>
                                         </a>
                                         <?php if ((int) session('admin_id') !== (int) $user['id']) : ?>
-                                            <form action="<?= base_url('admin/manajemen-user/' . $user['id'] . '/hapus') ?>" method="post" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                                            <form action="<?= base_url('admin/manajemen-user/' . $user['id'] . '/hapus') ?>" method="post" class="d-inline" data-confirm="Apakah Anda yakin ingin menghapus user ini?">
                                                 <?= csrf_field() ?>
                                                 <button type="submit" class="btn btn-sm btn-outline-danger rounded-3" title="Hapus">
                                                     <i class="bi bi-trash"></i>
