@@ -925,9 +925,11 @@
 .photo-detail-image img,
 .photo-main-img {
     width: 100%;
+    height: auto;
+    max-height: 80vh;
     border-radius: 1rem;
-    aspect-ratio: 16 / 10;
-    object-fit: cover;
+    object-fit: contain;
+    background-color: var(--color-slate-900);
     border: 1px solid var(--color-gray-150);
     transition: opacity 0.18s ease;
 }
