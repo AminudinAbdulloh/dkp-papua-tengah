@@ -81,16 +81,6 @@ class BerandaModel
                 'link' => '#',
                 'aktif' => 'ppid',
                 'submenu' => [
-                    // [
-                    //     'nama' => 'Publikasi',
-                    //     'link' => '#',
-                    //     'submenu' => [
-                    //         ['nama' => 'Rencana Strategis', 'link' => base_url('publikasi/renstra')],
-                    //         ['nama' => 'Rencana Kerja', 'link' => base_url('publikasi/renja')],
-                    //         ['nama' => 'Laporan Kinerja', 'link' => base_url('publikasi/lakip')],
-                    //         ['nama' => 'Perjanjian Kinerja', 'link' => base_url('publikasi/pk')],
-                    //     ],
-                    // ],
                     [
                         'nama' => 'Layanan',
                         'link' => '#',
@@ -111,8 +101,12 @@ class BerandaModel
                             ['nama' => 'Informasi yang Dikecualikan', 'link' => base_url('informasi/informasi-dikecualikan')],
                         ],
                     ],
-                    // ['nama' => 'Laporan Layanan Informasi', 'link' => base_url('informasi/laporan-layanan-informasi')],
                 ],
+            ],
+            [
+                'nama' => 'Download',
+                'link' => base_url('download'),
+                'aktif' => 'download',
             ],
 
         ];
@@ -271,10 +265,6 @@ class BerandaModel
                 'title' => 'Informasi Setiap Saat',
                 'description' => 'Informasi yang tersedia sewaktu-waktu untuk memenuhi kebutuhan publik.',
             ],
-            // 'informasi/laporan-layanan-informasi' => [
-            //     'title' => 'Laporan Layanan Informasi',
-            //     'description' => 'Rekapitulasi statistik dan capaian layanan informasi publik.',
-            // ],
             'pengumuman' => [
                 'title' => 'Pengumuman',
                 'description' => 'Pengumuman resmi dan edaran terkait layanan Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
@@ -408,12 +398,6 @@ class BerandaModel
                 'description' => 'Informasi yang wajib diumumkan segera demi kepentingan publik',
                 'link' => 'informasi/informasi-serta-merta',
             ],
-            // [
-            //     'icon' => 'bi-bar-chart-line',
-            //     'title' => 'Laporan Layanan Informasi',
-            //     'description' => 'Laporan dan statistik layanan informasi publik',
-            //     'link' => 'informasi/laporan-layanan-informasi',
-            // ],
         ];
     }
 

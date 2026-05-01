@@ -4,8 +4,8 @@
     right: 30px;
     width: 56px;
     height: 56px;
-    background-color: #1d4ed8;
-    color: #ffffff !important;
+    background-color: var(--color-primary-700);
+    color: var(--color-white) !important;
     border-radius: 50% !important;
     display: flex;
     align-items: center;
@@ -17,7 +17,7 @@
     z-index: 99999;
     opacity: 0;
     visibility: hidden;
-    border: 2px solid #ffffff;
+    border: 2px solid var(--color-white);
     outline: none;
     text-decoration: none !important;
     transform: scale(0.5);
@@ -30,10 +30,10 @@
 }
 
 .scroll-to-top:hover {
-    background-color: #2563eb;
+    background-color: var(--color-primary-600);
     transform: translateY(-8px) scale(1.1);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
-    color: #ffffff !important;
+    color: var(--color-white) !important;
 }
 
 .scroll-to-top i {

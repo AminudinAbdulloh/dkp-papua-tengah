@@ -282,54 +282,6 @@ class Beranda extends BaseController
         return view('public/pengumuman_detail', $data);
     }
 
-    /* 
-    public function faq(): string
-    {
-        $faqs = [];
-        if (FaqModel::tableReady()) {
-            $faqs = model(FaqModel::class)->getActiveForPublic();
-        }
-
-        $data = [
-            'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
-            'footerData'   => $this->berandaModel->getPublicFooterData(),
-            'faqs'         => $faqs,
-            'pageData'     => [
-                'title'       => 'FAQ',
-                'description' => 'Pertanyaan yang sering diajukan seputar layanan Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
-                'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
-                    ['label' => 'FAQ', 'href' => null],
-                ],
-            ],
-        ];
-
-        return view('public/faq', $data);
-    }
-
-    public function kebijakanPrivasi(): string
-    {
-        $model = new PrivacyPolicyModel();
-        $policy = $model->getPolicy();
-
-        $data = [
-            'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
-            'footerData'   => $this->berandaModel->getPublicFooterData(),
-            'policy'       => $policy,
-            'pageData'     => [
-                'title'       => 'Kebijakan Privasi',
-                'description' => 'Aturan mengenai pengumpulan dan perlindungan data pengguna.',
-                'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
-                    ['label' => 'Kebijakan Privasi', 'href' => null],
-                ],
-            ],
-        ];
-
-        return view('public/kebijakan_privasi', $data);
-    }
-    */
-
     /**
      * Informasi Publik – list by category.
      */
@@ -759,5 +711,50 @@ class Beranda extends BaseController
 
         return redirect()->to(base_url('layanan/form-keberatan-informasi'))
             ->with('keberatan_success', 'Keberatan berhasil dikirim. Nomor registrasi: ' . $regNumber . '. Keberatan akan diproses maksimal 30 hari kerja.');
+    }
+
+    public function download(): string
+    {
+        $downloadModel = model(\App\Models\DownloadModel::class);
+        $search = $this->request->getGet('cari');
+        
+        $query = $downloadModel;
+        if ($search) {
+            $query = $query->like('title', $search);
+        }
+
+        $data = [
+            'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
+            'footerData'   => $this->berandaModel->getPublicFooterData(),
+            'downloads'    => $query->orderBy('created_at', 'DESC')->paginate(10, 'public'),
+            'pager'        => $downloadModel->pager,
+            'searchQuery'  => $search,
+            'pageData'     => [
+                'title'       => 'Pusat Unduhan',
+                'description' => 'Kumpulan dokumen, regulasi, dan informasi resmi yang dapat diunduh publik.',
+                'breadcrumbs' => [
+                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Download', 'href' => null],
+                ],
+            ],
+        ];
+
+        return view('public/download', $data);
+    }
+
+    public function doDownload(int $id): ResponseInterface
+    {
+        $downloadModel = model(\App\Models\DownloadModel::class);
+        $item = $downloadModel->find($id);
+
+        if (!$item) {
+            throw \CodeIgniter\Exceptions\PageNotFoundException::forPageNotFound();
+        }
+
+        // Increment count
+        $downloadModel->update($id, ['download_count' => $item['download_count'] + 1]);
+
+        return $this->response->download(FCPATH . 'uploads/downloads/' . $item['file_path'], null)
+            ->setFileName($item['title'] . '.' . $item['file_type']);
     }
 }

@@ -31,19 +31,21 @@ $totalSlides = $hasSlides ? count($slides) + 1 : 1;
                 <div class="hero-overlay"></div>
                 <div class="hero-slide-content d-flex align-items-center h-100">
                     <div class="container px-4 px-lg-2">
-                        <div class="col-lg-8 hero-anim-el">
-                            <div class="mb-4">
-                                <span class="badge-custom">Pemerintah Provinsi Papua Tengah</span>
+                        <div class="row">
+                            <div class="col-lg-8 hero-anim-el">
+                                <div class="mb-4">
+                                    <span class="badge-custom">Pemerintah Provinsi Papua Tengah</span>
+                                </div>
+                                <h1 class="display-4 fw-bold text-white mb-4">
+                                    Dinas Kelautan dan Perikanan Provinsi Papua Tengah
+                                </h1>
+                                <p class="text-light mb-5 fs-5">
+                                    Mengelola dan mengembangkan potensi perikanan dan kelautan untuk kesejahteraan masyarakat Papua Tengah
+                                </p>
+                                <a href="<?= base_url('profil/sejarah') ?>" class="btn btn-primary btn-lg px-4 py-3">
+                                    <i class="bi bi-info-circle me-2"></i>Tentang Kami
+                                </a>
                             </div>
-                            <h1 class="display-4 fw-bold text-white mb-4">
-                                Dinas Kelautan dan Perikanan Provinsi Papua Tengah
-                            </h1>
-                            <p class="text-light mb-5 fs-5">
-                                Mengelola dan mengembangkan potensi perikanan dan kelautan untuk kesejahteraan masyarakat Papua Tengah
-                            </p>
-                            <a href="<?= base_url('profil/sejarah') ?>" class="btn btn-primary btn-lg px-4 py-3">
-                                <i class="bi bi-info-circle me-2"></i>Tentang Kami
-                            </a>
                         </div>
                     </div>
                 </div>
@@ -62,21 +64,23 @@ $totalSlides = $hasSlides ? count($slides) + 1 : 1;
                     <div class="hero-overlay hero-overlay-news"></div>
                     <div class="hero-slide-content d-flex align-items-center h-100">
                         <div class="container px-4 px-lg-2">
-                            <div class="col-lg-7 hero-anim-el">
-                                <div class="mb-3">
-                                    <span class="badge-custom">
-                                        <i class="bi bi-newspaper me-1"></i>Berita Terkini
-                                    </span>
+                            <div class="row">
+                                <div class="col-lg-7 hero-anim-el">
+                                    <div class="mb-3">
+                                        <span class="badge-custom">
+                                            <i class="bi bi-newspaper me-1"></i>Berita Terkini
+                                        </span>
+                                    </div>
+                                    <h2 class="hero-news-title fw-bold text-white mb-3"><?= esc($sTitle) ?></h2>
+                                    <?php if ($sExcerpt !== '') : ?>
+                                        <p class="hero-news-excerpt text-light mb-4"><?= esc($sExcerpt) ?></p>
+                                    <?php endif; ?>
+                                    <?php if ($sId > 0) : ?>
+                                        <a href="<?= base_url('berita/' . $sId) ?>" class="btn btn-primary btn-lg px-4 py-3">
+                                            <i class="bi bi-arrow-right me-2"></i>Selengkapnya
+                                        </a>
+                                    <?php endif; ?>
                                 </div>
-                                <h2 class="hero-news-title fw-bold text-white mb-3"><?= esc($sTitle) ?></h2>
-                                <?php if ($sExcerpt !== '') : ?>
-                                    <p class="hero-news-excerpt text-light mb-4"><?= esc($sExcerpt) ?></p>
-                                <?php endif; ?>
-                                <?php if ($sId > 0) : ?>
-                                    <a href="<?= base_url('berita/' . $sId) ?>" class="btn btn-primary btn-lg px-4 py-3">
-                                        <i class="bi bi-arrow-right me-2"></i>Selengkapnya
-                                    </a>
-                                <?php endif; ?>
                             </div>
                         </div>
                     </div>

@@ -95,6 +95,7 @@
                 <?= $sidebarNav('pengumuman',           'Pengumuman',   base_url('admin/pengumuman'),          'bi-megaphone') ?>
                 <?= $sidebarNav('konten-galeri-foto',  'Galeri Foto',  base_url('admin/konten/galeri-foto'),  'bi-images') ?>
                 <?= $sidebarNav('konten-galeri-video', 'Galeri Video', base_url('admin/konten/galeri-video'), 'bi-camera-video') ?>
+                <?= $sidebarNav('konten-download',     'Download',     base_url('admin/konten/download'),      'bi-download') ?>
 
                 <!-- Dropdown: Dokumen Informasi Publik -->
                 <button type="button"
@@ -160,6 +161,7 @@
                     <?= $sidebarNav('pengumuman',           'Pengumuman',   base_url('admin/pengumuman'),          'bi-megaphone') ?>
                     <?= $sidebarNav('konten-galeri-foto',  'Galeri Foto',  base_url('admin/konten/galeri-foto'),  'bi-images') ?>
                     <?= $sidebarNav('konten-galeri-video', 'Galeri Video', base_url('admin/konten/galeri-video'), 'bi-camera-video') ?>
+                    <?= $sidebarNav('konten-download',     'Download',     base_url('admin/konten/download'),      'bi-download') ?>
 
                     <!-- Dropdown mobile -->
                     <button type="button"
@@ -242,7 +244,7 @@
                 text: 'Tindakan ini tidak dapat dibatalkan!',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonColor: '#1d4ed8', // primary color
+                confirmButtonColor: '#1c3360', // primary-700 color
                 cancelButtonColor: '#64748b',  // secondary color
                 confirmButtonText: 'Ya, Lanjutkan!',
                 cancelButtonText: 'Batal'

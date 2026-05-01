@@ -24,17 +24,17 @@
 .hero-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to right, rgba(30, 58, 138, 0.9), rgba(30, 64, 175, 0.8), transparent);
+    background: linear-gradient(to right, var(--color-primary-700), var(--color-primary-700), transparent);
     z-index: -1;
 }
 
 .badge-custom {
     display: inline-block;
     padding: 0.5rem 1rem;
-    background-color: #ffffff;
+    background-color: var(--color-white);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius: 50rem;
-    color: #0d6efd;
+    color: var(--color-primary-600);
     font-size: 0.875rem;
     font-weight: 600;
     text-decoration: none;
@@ -136,6 +136,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 10;
+}
+
+.carousel-control-prev.hero-carousel-btn {
+    left: 20px;
+}
+
+.carousel-control-next.hero-carousel-btn {
+    right: 20px;
 }
 
 .hero-carousel-btn:hover {
@@ -171,7 +180,7 @@
 }
 
 .hero-carousel-indicators button.active {
-    background-color: #ffffff;
+    background-color: var(--color-white);
     width: 44px;
 }
 
@@ -625,9 +634,19 @@
    ------------------------------------------------------------ */
 @media (max-width: 991.98px) {
     .hero-section {
-        height: auto;
-        min-height: 560px;
-        padding: 100px 0 70px;
+        height: 600px;
+        min-height: unset;
+        padding: 0;
+    }
+
+    .hero-carousel-wrap .carousel,
+    .hero-carousel-wrap .carousel-inner,
+    .hero-carousel-wrap .carousel-item {
+        height: 100%;
+    }
+
+    .hero-slide-content {
+        padding-top: 80px;
     }
 
     .hero-overlay {
@@ -647,7 +666,14 @@
 
     .hero-section .btn {
         width: 100%;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .hero-section .btn i {
+        margin: 0 !important;
     }
 
     .section-padding,
@@ -662,12 +688,42 @@
 
 @media (max-width: 575.98px) {
     .hero-section {
-        min-height: 500px;
-        padding: 90px 0 56px;
+        height: 560px;
+        min-height: unset;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .hero-slide-content {
+        padding-top: 60px;
+    }
+
+    .hero-carousel-btn {
+        width: 40px;
+        height: 40px;
+        opacity: 1 !important;
+        /* Always show on mobile for better UX */
+    }
+
+    .carousel-control-prev.hero-carousel-btn {
+        left: 10px;
+    }
+
+    .carousel-control-next.hero-carousel-btn {
+        right: 10px;
     }
 
     .hero-section .display-4 {
-        font-size: 1.65rem;
+        font-size: 1.75rem;
+    }
+
+    .hero-news-title {
+        font-size: 1.5rem;
+    }
+
+    .hero-section p.fs-5 {
+        font-size: 1rem !important;
+        margin-bottom: 2rem !important;
     }
 
     .badge-custom {
@@ -842,8 +898,12 @@
     align-items: center;
     gap: 0.4rem;
     text-decoration: none;
-    color: var(--color-primary-600);
+    color: var(--color-white);
     font-weight: 600;
+}
+
+.popular-all-link:hover {
+    color: var(--color-primary-500);
 }
 
 @media (max-width: 767.98px) {
@@ -966,7 +1026,7 @@
 
 .photo-thumb-btn.active {
     border-color: var(--color-primary-600);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary-600) 20%, transparent);
 }
 
 
@@ -1043,6 +1103,11 @@
     text-decoration: none;
     color: var(--color-primary-600);
     font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.photo-related-all-link:hover {
+    color: var(--color-primary-500);
 }
 
 @media (max-width: 767.98px) {

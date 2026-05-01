@@ -23,6 +23,11 @@
             </div>
             <div class="offcanvas-body">
                 <ul class="navbar-nav mx-lg-auto">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 fw-medium" href="<?= base_url('/') ?>">
+                            Portal
+                        </a>
+                    </li>
                     <?php foreach ($menuNavigasi as $menu): ?>
 
                         <?php if (empty($menu['submenu'])): ?>

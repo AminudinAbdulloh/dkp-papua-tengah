@@ -97,6 +97,13 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
         $routes->post('konten/tipe-publikasi/(:num)/update', 'KontenTipePublikasi::update/$1', ['filter' => 'csrf']);
         $routes->post('konten/tipe-publikasi/(:num)/hapus', 'KontenTipePublikasi::delete/$1', ['filter' => 'csrf']);
 
+        $routes->get('konten/download', 'KontenDownload::index');
+        $routes->get('konten/download/tambah', 'KontenDownload::create');
+        $routes->post('konten/download/simpan', 'KontenDownload::store', ['filter' => 'csrf']);
+        $routes->get('konten/download/(:num)/edit', 'KontenDownload::edit/$1');
+        $routes->post('konten/download/(:num)/update', 'KontenDownload::update/$1', ['filter' => 'csrf']);
+        $routes->post('konten/download/(:num)/hapus', 'KontenDownload::delete/$1', ['filter' => 'csrf']);
+
         $routes->post('konten/upload-image', 'KontenMedia::uploadImage');
         $routes->post('konten/delete-image', 'KontenMedia::deleteImage');
 
@@ -127,6 +134,9 @@ $routes->group('galeri', static function ($routes) {
     $routes->get('foto/(:num)', 'Beranda::galeriFotoDetail/$1');
     $routes->get('video', 'Beranda::galeriVideo');
 });
+
+$routes->get('download', 'Beranda::download');
+$routes->get('download/do/(:num)', 'Beranda::doDownload/$1');
 
 $routes->group('profil', static function ($routes) {
     $routes->get('sejarah', 'Beranda::page/profil/sejarah');

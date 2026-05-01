@@ -1,3 +1,20 @@
+/* Global layout fixes for horizontal overflow and scrollbar gutters */
+html {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: var(--color-white); /* Default for most sections */
+}
+
+body {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: inherit;
+}
+
 .logo-box {
     width: 65px;
     height: 65px;
@@ -6,6 +23,7 @@
 .navbar {
     padding: 0.55rem 0;
     box-shadow: 0 1px 3px var(--overlay-black-10);
+    width: 100%;
 }
 
 .navbar-brand {
@@ -108,8 +126,8 @@
 
 @media (max-width: 991.98px) {
     .navbar .container-fluid {
-        padding-left: 1rem;
-        padding-right: 1rem;
+        padding-left: 1.25rem !important;
+        padding-right: 1.25rem !important;
     }
 
     .logo-box {

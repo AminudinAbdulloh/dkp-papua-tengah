@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="<?= base_url('css/theme-tokens.css') ?>">
     <link rel="stylesheet" href="<?= base_url('css/portal.css') ?>">
 </head>
 <body>
@@ -140,7 +141,7 @@ $agencyName = $agency['name'] ?? 'Dinas Kelautan dan Perikanan Papua Tengah';
     <div class="portal-footer-title"><?= esc(strtoupper($agencyName)) ?></div>
     <?php if ($alamat !== '') : ?>
         <div class="portal-footer-contact">
-            <i class="bi bi-geo-alt me-1"></i><?= esc($alamat) ?>
+            <i class="bi bi-geo-alt me-1"></i> <?= esc($alamat) ?>
         </div>
     <?php endif; ?>
 
