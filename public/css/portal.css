@@ -406,8 +406,6 @@ body {
 }
 
 @media (max-width: 400px) {
-    .portal-grid {}
-
     .portal-icon-wrap {
         width: 52px;
         height: 52px;
