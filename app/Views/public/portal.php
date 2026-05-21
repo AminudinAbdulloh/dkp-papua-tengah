@@ -15,7 +15,7 @@
 
 <main class="portal-hero">
     <!-- Background -->
-    <img src="<?= base_url('images/paus_biru.jpg') ?>" alt="" class="portal-hero-bg" aria-hidden="true">
+    <img src="<?= base_url('images/bg_portal.jpeg') ?>" alt="" class="portal-hero-bg" aria-hidden="true">
     <div class="portal-hero-overlay" aria-hidden="true"></div>
 
     <div class="portal-content">
@@ -57,7 +57,16 @@
         ?>
         <div class="portal-grid" role="navigation" aria-label="Menu Portal">
 
-            <!-- 1. Provinsi Papua Tengah -->
+            <!-- 1. Kementerian Kelautan dan Perikanan -->
+            <a href="https://kkp.go.id/" target="_blank" rel="noopener noreferrer"
+               class="portal-item" title="Kementerian Kelautan dan Perikanan">
+                <div class="portal-icon-wrap">
+                    <img src="<?= base_url('images/logo_kkp.png') ?>" alt="Logo KKP">
+                </div>
+                <span class="portal-item-label">Kementerian Kelautan dan Perikanan</span>
+            </a>
+
+            <!-- 2. Provinsi Papua Tengah -->
             <a href="https://papuatengahprov.go.id/" target="_blank" rel="noopener noreferrer"
                class="portal-item" title="Provinsi Papua Tengah">
                 <div class="portal-icon-wrap">
@@ -66,7 +75,7 @@
                 <span class="portal-item-label">Provinsi Papua Tengah</span>
             </a>
 
-            <!-- 2. Sibapatengah -->
+            <!-- 3. Sibapatengah -->
             <a href="https://sibapatengah.id/" target="_blank" rel="noopener noreferrer"
                class="portal-item" title="Sibapatengah">
                 <div class="portal-icon-wrap">
