@@ -220,6 +220,13 @@ body {
     gap: 10px;
 }
 
+.portal-dropdown-header-logo {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 .portal-dropdown-list {
     list-style: none;
     padding: 8px 0;

@@ -58,13 +58,40 @@
         <div class="portal-grid" role="navigation" aria-label="Menu Portal">
 
             <!-- 1. Kementerian Kelautan dan Perikanan -->
-            <a href="https://kkp.go.id/" target="_blank" rel="noopener noreferrer"
-               class="portal-item" title="Kementerian Kelautan dan Perikanan">
+            <div class="portal-item portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true"
+                 title="Kementerian Kelautan dan Perikanan">
                 <div class="portal-icon-wrap">
                     <img src="<?= base_url('images/logo_kkp.png') ?>" alt="Logo KKP">
                 </div>
                 <span class="portal-item-label">Kementerian Kelautan dan Perikanan</span>
-            </a>
+
+                <div class="portal-dropdown">
+                    <div class="portal-dropdown-header">
+                        <img src="<?= base_url('images/logo_kkp.png') ?>" alt="" class="portal-dropdown-header-logo" aria-hidden="true">
+                        <span>Kementerian Kelautan dan Perikanan</span>
+                    </div>
+                    <ul class="portal-dropdown-list">
+                        <li>
+                            <a href="https://portaldata.kkp.go.id/datainsight/kusuka" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                KUSUKA
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://portaldata.kkp.go.id/login" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                Login
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://portaldata.kkp.go.id/register" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                Register
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
 
             <!-- 2. Provinsi Papua Tengah -->
             <a href="https://papuatengahprov.go.id/" target="_blank" rel="noopener noreferrer"
