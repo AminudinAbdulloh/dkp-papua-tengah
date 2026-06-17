@@ -6,9 +6,13 @@
     padding: 0;
 }
 
+html {
+    height: 100%;
+}
+
 body {
     font-family: 'Inter', sans-serif;
-    min-height: 100vh;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
     background: var(--color-slate-900);
@@ -18,8 +22,9 @@ body {
 /* ─── Hero ─────────────────────────────────────────────── */
 .portal-hero {
     position: relative;
-    flex: 1;
+    flex: 1 0 auto;
     min-height: 100vh;
+    min-height: 100svh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -110,6 +115,17 @@ body {
     position: relative;
 }
 
+/* Grid variants */
+.portal-grid-main {
+    gap: 22px 18px;
+    margin-top: 4px;
+}
+
+.portal-grid-quick {
+    gap: 14px 14px;
+    margin-top: -4px; /* rapatkan ke Menu Utama */
+}
+
 .portal-item {
     display: flex;
     flex-direction: column;
@@ -120,6 +136,41 @@ body {
     position: relative;
     transition: z-index 0.3s;
     width: 140px;
+}
+
+.portal-item--main {
+    width: 190px;
+}
+
+.portal-item--main .portal-icon-wrap {
+    width: 112px;
+    height: 112px;
+    border-radius: 28px;
+    padding: 10px;
+}
+
+.portal-item--main .portal-item-label {
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+}
+
+.portal-item--quick {
+    width: 120px;
+}
+
+.portal-item--quick .portal-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 18px;
+    padding: 8px;
+}
+
+.portal-item--quick .portal-icon-wrap i {
+    font-size: 2.1rem;
+}
+
+.portal-item--quick .portal-item-label {
+    font-size: 0.78rem;
 }
 
 .portal-item.active {
@@ -179,9 +230,10 @@ body {
     background: #fff;
     border-radius: 16px;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    display: none;
     opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     pointer-events: none;
     cursor: default;
     text-align: left;
@@ -190,8 +242,8 @@ body {
 }
 
 .portal-item.active .portal-dropdown {
+    display: block;
     opacity: 1;
-    visibility: visible;
     transform: translateX(-50%) translateY(0);
     pointer-events: auto;
 }
@@ -299,6 +351,7 @@ body {
     padding: 28px 20px;
     position: relative;
     z-index: 10;
+    flex-shrink: 0;
 }
 
 .portal-footer-title {
@@ -359,6 +412,20 @@ body {
 
     .portal-item {
         width: calc(33.33% - 10px);
+    }
+
+    .portal-item--main {
+        width: calc(50% - 10px);
+    }
+
+    .portal-item--main .portal-icon-wrap {
+        width: 86px;
+        height: 86px;
+        border-radius: 22px;
+    }
+
+    .portal-item--main .portal-item-label {
+        font-size: 0.86rem;
     }
 
     .portal-icon-wrap {

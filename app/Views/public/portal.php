@@ -55,10 +55,12 @@
             'informasi publik' => ['title' => 'Informasi Publik', 'icon' => 'bi-file-earmark-text', 'menu' => $menuMap['informasi publik'] ?? null],
         ];
         ?>
-        <div class="portal-grid" role="navigation" aria-label="Menu Portal">
+
+        <!-- Menu Utama (besar) -->
+        <div class="portal-grid portal-grid-main" role="navigation" aria-label="Menu Utama Portal">
 
             <!-- 1. Kementerian Kelautan dan Perikanan -->
-            <div class="portal-item portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true"
+            <div class="portal-item portal-item--main portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true"
                  title="Kementerian Kelautan dan Perikanan">
                 <div class="portal-icon-wrap">
                     <img src="<?= base_url('images/logo_kkp.png') ?>" alt="Logo KKP">
@@ -80,13 +82,31 @@
                         <li>
                             <a href="https://portaldata.kkp.go.id/login" target="_blank" rel="noopener noreferrer">
                                 <i class="bi bi-chevron-right"></i>
-                                Login
+                                Login Kusuka
                             </a>
                         </li>
                         <li>
                             <a href="https://portaldata.kkp.go.id/register" target="_blank" rel="noopener noreferrer">
                                 <i class="bi bi-chevron-right"></i>
-                                Register
+                                Register Kusuka
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://kapal.kkp.go.id/" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                SIPALKA
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://kapal.kkp.go.id/sipalkaonline/" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                Login SIPALKA
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://kapal.kkp.go.id/sipalkaonline/#action=daftar" target="_blank" rel="noopener noreferrer">
+                                <i class="bi bi-chevron-right"></i>
+                                Register SIPALKA
                             </a>
                         </li>
                     </ul>
@@ -95,25 +115,29 @@
 
             <!-- 2. Provinsi Papua Tengah -->
             <a href="https://papuatengahprov.go.id/" target="_blank" rel="noopener noreferrer"
-               class="portal-item" title="Provinsi Papua Tengah">
+               class="portal-item portal-item--main" title="Provinsi Papua Tengah">
                 <div class="portal-icon-wrap">
                     <img src="<?= base_url('images/logo_prov_papua_tengah.png') ?>" alt="Logo Papua Tengah">
                 </div>
                 <span class="portal-item-label">Provinsi Papua Tengah</span>
             </a>
 
-            <!-- 3. Sibapatengah -->
-            <a href="https://sibapatengah.id/" target="_blank" rel="noopener noreferrer"
-               class="portal-item" title="Sibapatengah">
+            <!-- 3. Dinas Kelautan dan Perikanan -->
+            <a href="<?= base_url('beranda') ?>"
+               class="portal-item portal-item--main" title="Dinas Kelautan dan Perikanan Papua Tengah">
                 <div class="portal-icon-wrap">
-                    <img src="<?= base_url('images/logo_prov_papua_tengah.png') ?>" alt="Logo Sibapatengah">
+                    <img src="<?= base_url('images/logo_prov_papua_tengah.png') ?>" alt="Logo Papua Tengah">
                 </div>
-                <span class="portal-item-label">Sibapatengah</span>
+                <span class="portal-item-label">Dinas Kelautan dan Perikanan</span>
             </a>
 
+        </div>
+
+        <!-- Menu Akses Cepat (kecil) -->
+        <div class="portal-grid portal-grid-quick" role="navigation" aria-label="Menu Akses Cepat Portal">
             <!-- Dropdown Menus -->
             <?php foreach ($popupMenus as $key => $popup) : ?>
-            <div class="portal-item portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true" title="<?= $popup['title'] ?>">
+            <div class="portal-item portal-item--quick portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true" title="<?= $popup['title'] ?>">
                 <div class="portal-icon-wrap">
                     <i class="bi <?= $popup['icon'] ?>"></i>
                 </div>
@@ -148,11 +172,6 @@
             <?php endforeach; ?>
 
         </div>
-
-        <!-- Tombol ke beranda -->
-        <a href="<?= base_url('beranda') ?>" class="portal-btn">
-            Menuju ke Beranda
-        </a>
 
     </div>
 </main>
