@@ -122,7 +122,16 @@
                 <span class="portal-item-label">Provinsi Papua Tengah</span>
             </a>
 
-            <!-- 3. Dinas Kelautan dan Perikanan -->
+            <!-- 3. Sibapatengah -->
+            <a href="https://sibapatengah.id/" target="_blank" rel="noopener noreferrer"
+               class="portal-item portal-item--main" title="Sibapatengah">
+                <div class="portal-icon-wrap">
+                    <img src="<?= base_url('images/logo_prov_papua_tengah.png') ?>" alt="Logo Papua Tengah">
+                </div>
+                <span class="portal-item-label">Sibapatengah</span>
+            </a>
+
+            <!-- 4. Dinas Kelautan dan Perikanan -->
             <a href="<?= base_url('beranda') ?>"
                class="portal-item portal-item--main" title="Dinas Kelautan dan Perikanan Papua Tengah">
                 <div class="portal-icon-wrap">
