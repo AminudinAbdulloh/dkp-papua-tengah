@@ -11,11 +11,14 @@ class PengaturanBeranda extends BaseController
     public function index(): string
     {
         $model = model(SitePageModel::class);
-        $setting = $model->findBySlug(SitePageModel::SLUG_PENGATURAN_BERANDA);
 
         $data = [
-            'title' => 'Pengaturan Beranda',
-            'setting' => $setting,
+            'title' => 'Pengaturan Latar Belakang Website',
+            'setting' => $model->findBySlug(SitePageModel::SLUG_PENGATURAN_BERANDA),
+            'headerProfil' => $model->findBySlug(SitePageModel::SLUG_PENGATURAN_HEADER_PROFIL),
+            'headerInformasi' => $model->findBySlug(SitePageModel::SLUG_PENGATURAN_HEADER_INFORMASI),
+            'headerGaleri' => $model->findBySlug(SitePageModel::SLUG_PENGATURAN_HEADER_GALERI),
+            'headerPpid' => $model->findBySlug(SitePageModel::SLUG_PENGATURAN_HEADER_PPID),
         ];
 
         return view('admin/pengaturan_beranda/index', $data);
@@ -24,17 +27,33 @@ class PengaturanBeranda extends BaseController
     public function update(): ResponseInterface
     {
         $rules = [
-            'hero_bg' => 'permit_empty|uploaded[hero_bg]|is_image[hero_bg]|mime_in[hero_bg,image/jpg,image/jpeg,image/png,image/webp]|max_size[hero_bg,4096]',
+            'hero_bg'          => 'permit_empty|uploaded[hero_bg]|is_image[hero_bg]|mime_in[hero_bg,image/jpg,image/jpeg,image/png,image/webp]|max_size[hero_bg,4096]',
+            'header_profil'    => 'permit_empty|uploaded[header_profil]|is_image[header_profil]|mime_in[header_profil,image/jpg,image/jpeg,image/png,image/webp]|max_size[header_profil,4096]',
+            'header_informasi' => 'permit_empty|uploaded[header_informasi]|is_image[header_informasi]|mime_in[header_informasi,image/jpg,image/jpeg,image/png,image/webp]|max_size[header_informasi,4096]',
+            'header_galeri'    => 'permit_empty|uploaded[header_galeri]|is_image[header_galeri]|mime_in[header_galeri,image/jpg,image/jpeg,image/png,image/webp]|max_size[header_galeri,4096]',
+            'header_ppid'      => 'permit_empty|uploaded[header_ppid]|is_image[header_ppid]|mime_in[header_ppid,image/jpg,image/jpeg,image/png,image/webp]|max_size[header_ppid,4096]',
         ];
 
         if (!$this->validate($rules)) {
             return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
         }
 
-        $model = model(SitePageModel::class);
-        $setting = $model->findBySlug(SitePageModel::SLUG_PENGATURAN_BERANDA);
+        $this->handleUpload('hero_bg', SitePageModel::SLUG_PENGATURAN_BERANDA, 'Pengaturan Beranda', 'Pengaturan halaman utama');
+        $this->handleUpload('header_profil', SitePageModel::SLUG_PENGATURAN_HEADER_PROFIL, 'Header Profil', 'Latar belakang header halaman profil');
+        $this->handleUpload('header_informasi', SitePageModel::SLUG_PENGATURAN_HEADER_INFORMASI, 'Header Informasi', 'Latar belakang header halaman berita dan pengumuman');
+        $this->handleUpload('header_galeri', SitePageModel::SLUG_PENGATURAN_HEADER_GALERI, 'Header Galeri', 'Latar belakang header halaman foto dan video');
+        $this->handleUpload('header_ppid', SitePageModel::SLUG_PENGATURAN_HEADER_PPID, 'Header PPID', 'Latar belakang header halaman publikasi, layanan, informasi publik, dan download');
 
-        $imageFile = $this->request->getFile('hero_bg');
+        return redirect()->to(base_url('admin/pengaturan-beranda'))
+            ->with('success', 'Pengaturan latar belakang berhasil disimpan.');
+    }
+
+    private function handleUpload(string $inputName, string $slug, string $title, string $description): void
+    {
+        $model = model(SitePageModel::class);
+        $setting = $model->findBySlug($slug);
+        
+        $imageFile = $this->request->getFile($inputName);
         $bodyVal = $setting['body'] ?? '';
 
         if ($imageFile !== null && $imageFile->isValid() && !$imageFile->hasMoved()) {
@@ -51,9 +70,9 @@ class PengaturanBeranda extends BaseController
 
         if ($setting === null) {
             $model->insert([
-                'slug' => SitePageModel::SLUG_PENGATURAN_BERANDA,
-                'title' => 'Pengaturan Beranda',
-                'description' => 'Pengaturan halaman utama',
+                'slug' => $slug,
+                'title' => $title,
+                'description' => $description,
                 'body' => $bodyVal,
             ]);
         } else {
@@ -61,8 +80,5 @@ class PengaturanBeranda extends BaseController
                 'body' => $bodyVal,
             ]);
         }
-
-        return redirect()->to(base_url('admin/pengaturan-beranda'))
-            ->with('success', 'Pengaturan beranda berhasil disimpan.');
     }
 }

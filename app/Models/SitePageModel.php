@@ -14,6 +14,10 @@ class SitePageModel extends Model
     public const SLUG_PROFIL_KONTAK = 'profil/kontak';
     public const SLUG_LAYANAN_ALUR_INFORMASI = 'layanan/alur-permohonan-informasi';
     public const SLUG_PENGATURAN_BERANDA = 'pengaturan/beranda';
+    public const SLUG_PENGATURAN_HEADER_PROFIL = 'pengaturan/header-profil';
+    public const SLUG_PENGATURAN_HEADER_INFORMASI = 'pengaturan/header-informasi';
+    public const SLUG_PENGATURAN_HEADER_GALERI = 'pengaturan/header-galeri';
+    public const SLUG_PENGATURAN_HEADER_PPID = 'pengaturan/header-ppid';
 
     protected $table            = 'site_pages';
     protected $primaryKey       = 'id';

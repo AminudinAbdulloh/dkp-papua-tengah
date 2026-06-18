@@ -2,8 +2,44 @@
 $pageData = $pageData ?? [];
 $breadcrumbs = $pageData['breadcrumbs'] ?? [];
 $heroBackgroundImage = isset($pageData['backgroundImage']) ? trim((string) $pageData['backgroundImage']) : '';
-$heroStyle = '';
 
+if ($heroBackgroundImage === '') {
+    // Tentukan kategori halaman berdasarkan path URI
+    $uri = service('request')->getUri()->getPath();
+    $uriPath = ltrim($uri, '/');
+    
+    // Bersihkan 'index.php/' di awal path jika ada (untuk web server tanpa mod_rewrite)
+    if (str_starts_with($uriPath, 'index.php/')) {
+        $uriPath = substr($uriPath, 10);
+    }
+    if ($uriPath === 'index.php') {
+        $uriPath = '';
+    }
+    
+    $model = model(\App\Models\SitePageModel::class);
+    $setting = null;
+
+    if (str_starts_with($uriPath, 'profil/')) {
+        $setting = $model->findBySlug(\App\Models\SitePageModel::SLUG_PENGATURAN_HEADER_PROFIL);
+        $heroBackgroundImage = (!empty($setting) && !empty($setting['body'])) ? base_url($setting['body']) : base_url('images/header_profil.png');
+    } elseif (str_starts_with($uriPath, 'berita') || str_starts_with($uriPath, 'pengumuman')) {
+        $setting = $model->findBySlug(\App\Models\SitePageModel::SLUG_PENGATURAN_HEADER_INFORMASI);
+        $heroBackgroundImage = (!empty($setting) && !empty($setting['body'])) ? base_url($setting['body']) : base_url('images/header_informasi.png');
+    } elseif (str_starts_with($uriPath, 'galeri/')) {
+        $setting = $model->findBySlug(\App\Models\SitePageModel::SLUG_PENGATURAN_HEADER_GALERI);
+        $heroBackgroundImage = (!empty($setting) && !empty($setting['body'])) ? base_url($setting['body']) : base_url('images/header_galeri.png');
+    } elseif (
+        str_starts_with($uriPath, 'publikasi') || 
+        str_starts_with($uriPath, 'layanan/') || 
+        str_starts_with($uriPath, 'informasi/') || 
+        str_starts_with($uriPath, 'download')
+    ) {
+        $setting = $model->findBySlug(\App\Models\SitePageModel::SLUG_PENGATURAN_HEADER_PPID);
+        $heroBackgroundImage = (!empty($setting) && !empty($setting['body'])) ? base_url($setting['body']) : base_url('images/header_ppid.png');
+    }
+}
+
+$heroStyle = '';
 if ($heroBackgroundImage !== '') {
     $heroStyle = ' style="background-image: linear-gradient(135deg, rgba(8, 47, 73, 0.62), rgba(8, 47, 73, 0.4)), url(\'' . esc($heroBackgroundImage, 'attr') . '\');"';
 }
