@@ -12,7 +12,7 @@ class VisitorModel extends Model
     protected $returnType       = 'array';
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
-    protected $allowedFields    = ['ip_address', 'user_agent', 'cookie_token', 'today_views', 'total_views', 'updated_at', 'created_at'];
+    protected $allowedFields    = ['cookie_token', 'today_views', 'total_views', 'updated_at', 'created_at'];
 
     // Dates
     protected $useTimestamps = true;

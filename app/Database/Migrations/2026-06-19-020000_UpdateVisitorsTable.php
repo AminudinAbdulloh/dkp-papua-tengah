@@ -11,13 +11,13 @@ class UpdateVisitorsTable extends Migration
         // 1. Hapus tabel page_views
         $this->forge->dropTable('page_views', true);
 
-        // 2. Persiapkan kolom yang akan ditambahkan ke tabel visitors
-        $fieldsToAdd = [
+        // 2. Tambahkan kolom baru ke tabel visitors
+        $this->forge->addColumn('visitors', [
             'cookie_token' => [
                 'type'       => 'VARCHAR',
                 'constraint' => '255',
                 'null'       => true,
-                'after'      => 'user_agent',
+                'after'      => 'id',
             ],
             'today_views' => [
                 'type'       => 'INT',
@@ -36,30 +36,41 @@ class UpdateVisitorsTable extends Migration
                 'null' => true,
                 'after' => 'total_views',
             ],
-        ];
+        ]);
 
-        // Jika ip_address tidak ada di tabel visitors, tambahkan juga
-        if (!$this->db->fieldExists('ip_address', 'visitors')) {
-            $fieldsToAdd['ip_address'] = [
-                'type'       => 'VARCHAR',
-                'constraint' => '45',
-                'after'      => 'id',
-            ];
+        // 3. Hapus kolom ip_address dan user_agent jika ada di tabel visitors
+        $columnsToDrop = [];
+        if ($this->db->fieldExists('ip_address', 'visitors')) {
+            $columnsToDrop[] = 'ip_address';
         }
-
-        $this->forge->addColumn('visitors', $fieldsToAdd);
+        if ($this->db->fieldExists('user_agent', 'visitors')) {
+            $columnsToDrop[] = 'user_agent';
+        }
+        if (!empty($columnsToDrop)) {
+            $this->forge->dropColumn('visitors', $columnsToDrop);
+        }
     }
 
     public function down()
     {
         // 1. Hapus kolom-kolom baru dari tabel visitors
-        $columnsToDrop = ['cookie_token', 'today_views', 'total_views', 'updated_at'];
-        if ($this->db->fieldExists('ip_address', 'visitors')) {
-            $columnsToDrop[] = 'ip_address';
-        }
-        $this->forge->dropColumn('visitors', $columnsToDrop);
+        $this->forge->dropColumn('visitors', ['cookie_token', 'today_views', 'total_views', 'updated_at']);
 
-        // 2. Buat kembali tabel page_views
+        // 2. Tambahkan kembali kolom ip_address dan user_agent
+        $this->forge->addColumn('visitors', [
+            'ip_address' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '45',
+                'after'      => 'id',
+            ],
+            'user_agent' => [
+                'type'       => 'VARCHAR',
+                'constraint' => '255',
+                'after'      => 'ip_address',
+            ],
+        ]);
+
+        // 3. Buat kembali tabel page_views
         $this->forge->addField([
             'id' => [
                 'type'           => 'INT',

@@ -68,8 +68,6 @@ class VisitorFilter implements FilterInterface
             // Simpan visitor baru ke tabel visitors
             $visitorModel->insert([
                 'cookie_token' => $cookieToken,
-                'ip_address'   => $request->getIPAddress(),
-                'user_agent'   => $agent->getAgentString(),
                 'today_views'  => 1,
                 'total_views'  => 1,
             ]);
@@ -81,8 +79,6 @@ class VisitorFilter implements FilterInterface
                 // Jika tidak ditemukan (misal DB dikosongkan), buat record baru
                 $visitorModel->insert([
                     'cookie_token' => $cookieToken,
-                    'ip_address'   => $request->getIPAddress(),
-                    'user_agent'   => $agent->getAgentString(),
                     'today_views'  => 1,
                     'total_views'  => 1,
                 ]);
@@ -97,16 +93,12 @@ class VisitorFilter implements FilterInterface
                     $visitorModel->update($visitor['id'], [
                         'today_views' => (int)$visitor['today_views'] + 1,
                         'total_views' => (int)$visitor['total_views'] + 1,
-                        'ip_address'  => $request->getIPAddress(),
-                        'user_agent'  => $agent->getAgentString(),
                     ]);
                 } else {
                     // Jika hari yang berbeda: set today_views = 1, increment total_views
                     $visitorModel->update($visitor['id'], [
                         'today_views' => 1,
                         'total_views' => (int)$visitor['total_views'] + 1,
-                        'ip_address'  => $request->getIPAddress(),
-                        'user_agent'  => $agent->getAgentString(),
                     ]);
                 }
             }
