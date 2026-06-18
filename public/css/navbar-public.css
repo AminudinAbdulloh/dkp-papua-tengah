@@ -85,6 +85,16 @@ body {
     .dropend:hover>.dropdown-submenu {
         display: block;
     }
+
+    /* Rata tengah vertikal: menu + logo Tangguh sejajar dengan brand */
+    .offcanvas-body {
+        display: flex;
+        align-items: center;
+    }
+
+    .navbar-logo-tangguh {
+        height: 52px;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
