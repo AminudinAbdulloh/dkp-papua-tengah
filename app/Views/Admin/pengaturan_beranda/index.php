@@ -50,7 +50,7 @@
                         <div class="mb-3">
                             <label for="hero_bg" class="form-label fw-semibold">Ubah Latar Belakang (Opsional)</label>
                             <input class="form-control" type="file" id="hero_bg" name="hero_bg" accept="image/jpeg,image/png,image/jpg,image/webp">
-                            <div class="form-text mt-2 text-muted">Maksimal 4MB. Rekomendasi resolusi: 1920x1080px.</div>
+                            <div class="form-text mt-2 text-muted">Maksimal 4MB. Rekomendasi resolusi: 2400x1000px.</div>
                         </div>
                     </div>
                 </div>
