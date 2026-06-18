@@ -82,33 +82,32 @@
                     <?php endforeach ?>
                 </ul>
 
-                <div class="d-flex align-items-center gap-2 navbar-actions">
-                    <button class="btn rounded-3 border-0 theme-toggle-btn" id="themeToggle" title="Toggle Theme">
-                        <i class="bi bi-moon-stars" id="themeIcon"></i>
-                    </button>
-                </div>
+
             </div>
         </div>
     </div>
 </nav>
 
 <script>
-    const themeToggle = document.getElementById('themeToggle');
-    const themeIcon = document.getElementById('themeIcon');
     const htmlElement = document.documentElement;
     const offcanvasNav = document.getElementById('navbarNav');
 
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    htmlElement.setAttribute('data-bs-theme', savedTheme);
-    themeIcon.className = savedTheme === 'light' ? 'bi bi-moon-stars' : 'bi bi-sun';
+    // ── Auto Theme berbasis waktu ───────────────────────────────────────────
+    // Dark Mode : 18:00 – 05:59  |  Light Mode : 06:00 – 17:59
+    // ─────────────────────────────────────────────────────────────────────────
 
-    themeToggle.addEventListener('click', () => {
-        const currentTheme = htmlElement.getAttribute('data-bs-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-        htmlElement.setAttribute('data-bs-theme', newTheme);
-        themeIcon.className = newTheme === 'light' ? 'bi bi-moon-stars' : 'bi bi-sun';
-        localStorage.setItem('theme', newTheme);
-    });
+    function getAutoTheme() {
+        const h = new Date().getHours();
+        return (h >= 18 || h < 6) ? 'dark' : 'light';
+    }
+
+    // Terapkan auto-theme berdasarkan jam saat halaman dimuat
+    htmlElement.setAttribute('data-bs-theme', getAutoTheme());
+
+    // Periksa ulang setiap 60 detik — pastikan mode tepat saat melewati batas jam
+    setInterval(function () {
+        htmlElement.setAttribute('data-bs-theme', getAutoTheme());
+    }, 60000);
 
     const resetMobileDropdownState = () => {
         document.querySelectorAll('.navbar-nav .dropdown.show').forEach((item) => {

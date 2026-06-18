@@ -1,3 +1,45 @@
+/* ─── Auto Theme (Time-Based Dark / Light Mode) ──────────
+   Dark  : 18:00 – 05:59  → [data-theme="dark"]  on <body>
+   Light : 06:00 – 17:59  → [data-theme="light"] on <body>
+────────────────────────────────────────────────────────── */
+
+/* Light Mode Variables */
+body[data-theme="light"] {
+    --portal-bg:            #e8f4fd;
+    --portal-overlay:       rgba(0, 30, 80, 0.38);
+    --portal-title-bg:      var(--color-primary-700);
+    --portal-subtitle-bg:   var(--color-primary-600);
+    --portal-label-color:   #fff;
+    --portal-label-shadow:  0 1px 4px rgba(0, 0, 0, 0.45);
+    --portal-icon-bg:       rgba(255, 255, 255, 0.92);
+    --portal-icon-hover-bg: #ffffff;
+    --portal-footer-bg:     var(--color-primary-700);
+    --portal-footer-color:  #e0eaff;
+    --portal-indicator-color: #f59e0b;
+    --portal-indicator-label: "☀️ Mode Siang";
+}
+
+/* Dark Mode Variables */
+body[data-theme="dark"] {
+    --portal-bg:            #050d1a;
+    --portal-overlay:       rgba(0, 5, 20, 0.72);
+    --portal-title-bg:      rgba(10, 20, 60, 0.85);
+    --portal-subtitle-bg:   rgba(20, 40, 100, 0.75);
+    --portal-label-color:   #c7dfff;
+    --portal-label-shadow:  0 1px 8px rgba(0, 0, 0, 0.85);
+    --portal-icon-bg:       rgba(15, 30, 70, 0.80);
+    --portal-icon-hover-bg: rgba(30, 60, 120, 0.95);
+    --portal-footer-bg:     rgba(5, 10, 35, 0.95);
+    --portal-footer-color:  #8fb8e8;
+    --portal-indicator-color: #60a5fa;
+    --portal-indicator-label: "🌙 Mode Malam";
+}
+
+/* ─── Theme Transition ───────────────────────────────── */
+body {
+    transition: background 0.8s ease, color 0.8s ease;
+}
+
 *,
 *::before,
 *::after {
@@ -15,7 +57,7 @@ body {
     min-height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--color-slate-900);
+    background: var(--portal-bg, var(--color-slate-900));
     overflow-x: hidden;
 }
 
@@ -47,6 +89,8 @@ body {
     position: absolute;
     inset: 0;
     z-index: 1;
+    background: var(--portal-overlay, rgba(0, 30, 80, 0.38));
+    transition: background 0.8s ease;
 }
 
 .portal-content {
@@ -81,7 +125,7 @@ body {
 
 /* Judul & subtitle pills */
 .portal-title {
-    background: var(--color-primary-700);
+    background: var(--portal-title-bg, var(--color-primary-700));
     color: var(--color-white);
     font-size: clamp(1.05rem, 3vw, 1.45rem);
     font-weight: 800;
@@ -89,10 +133,13 @@ body {
     padding: 12px 36px;
     border-radius: 50px;
     text-align: center;
+    transition: background 0.8s ease;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .portal-subtitle {
-    background: var(--color-primary-600);
+    background: var(--portal-subtitle-bg, var(--color-primary-600));
     color: var(--color-slate-100);
     font-size: 0.82rem;
     font-weight: 600;
@@ -101,6 +148,9 @@ body {
     padding: 7px 28px;
     border-radius: 50px;
     text-align: center;
+    transition: background 0.8s ease;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
 }
 
 /* Icon grid */
@@ -181,11 +231,11 @@ body {
     width: 88px;
     height: 88px;
     border-radius: 22px;
-    background: rgba(255, 255, 255, 0.92);
+    background: var(--portal-icon-bg, rgba(255, 255, 255, 0.92));
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+    transition: transform 0.22s ease, background 0.5s ease, box-shadow 0.22s ease;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.18);
     overflow: hidden;
     padding: 8px;
@@ -204,20 +254,31 @@ body {
 
 .portal-item:hover .portal-icon-wrap,
 .portal-item.active .portal-icon-wrap {
-    background: var(--color-white);
+    background: var(--portal-icon-hover-bg, var(--color-white));
     transform: translateY(-5px);
     box-shadow: 0 8px 28px color-mix(in srgb, var(--color-primary-700) 35%, transparent);
 }
 
 .portal-item-label {
-    color: #fff;
+    color: var(--portal-label-color, #fff);
     font-size: 0.82rem;
     font-weight: 600;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     line-height: 1.3;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: var(--portal-label-shadow, 0 1px 4px rgba(0, 0, 0, 0.5));
+    transition: color 0.8s ease;
+}
+
+/* Dark Mode: warna ikon lebih terang */
+body[data-theme="dark"] .portal-icon-wrap i {
+    color: #60a5fa;
+}
+
+body[data-theme="dark"] .portal-item:hover .portal-icon-wrap i,
+body[data-theme="dark"] .portal-item.active .portal-icon-wrap i {
+    color: #93c5fd;
 }
 
 /* ─── Dropdown Speech Box ─────────────────────────────── */
@@ -345,13 +406,14 @@ body {
 
 /* ─── Footer ───────────────────────────────────────────── */
 .portal-footer {
-    background: var(--color-primary-700);
-    color: #e0eaff;
+    background: var(--portal-footer-bg, var(--color-primary-700));
+    color: var(--portal-footer-color, #e0eaff);
     text-align: center;
     padding: 28px 20px;
     position: relative;
     z-index: 10;
     flex-shrink: 0;
+    transition: background 0.8s ease, color 0.8s ease;
 }
 
 .portal-footer-title {
