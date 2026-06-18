@@ -134,6 +134,8 @@
     transform: translateY(-50%);
     bottom: auto;
     opacity: 0;
+    /* Saat opacity 0, jangan halangi klik/sentuh pada konten slide */
+    pointer-events: none;
     transition: opacity 0.3s ease, background-color 0.25s ease;
     display: flex;
     align-items: center;
@@ -153,8 +155,11 @@
     background-color: rgba(255, 255, 255, 0.32);
 }
 
-.hero-carousel-wrap:hover .hero-carousel-btn {
+/* Saat hero dihover / tombol mendapat fokus — aktifkan pointer events */
+.hero-carousel-wrap:hover .hero-carousel-btn,
+.hero-carousel-btn:focus {
     opacity: 1;
+    pointer-events: auto;
 }
 
 .hero-carousel-btn .carousel-control-prev-icon,
@@ -652,6 +657,21 @@
         padding-top: 15px;
     }
 
+    /* Beri ruang untuk tombol panah kiri/kanan agar tidak menimpa konten */
+    .hero-slide-content .container {
+        padding-left: 64px !important;
+        padding-right: 64px !important;
+    }
+
+    /* Geser tombol ke tepi layar */
+    .carousel-control-prev.hero-carousel-btn {
+        left: 8px;
+    }
+
+    .carousel-control-next.hero-carousel-btn {
+        right: 8px;
+    }
+
     .hero-overlay {
         background: linear-gradient(to bottom,
                 rgba(28, 51, 96, 0.82) 0%,
@@ -700,10 +720,65 @@
     }
 }
 
+/* ── Desktop sempit / tablet landscape besar (992px – 1024px) ───── */
+@media (min-width: 992px) and (max-width: 1024px) {
+    /* Container: beri ruang untuk tombol panah */
+    .hero-slide-content .container {
+        padding-left: 68px !important;
+        padding-right: 68px !important;
+    }
+
+    /* Tombol panah ke tepi */
+    .carousel-control-prev.hero-carousel-btn {
+        left: 8px;
+    }
+
+    .carousel-control-next.hero-carousel-btn {
+        right: 8px;
+    }
+
+    /* Badge */
+    .hero-section .badge-custom {
+        font-size: 0.78rem;
+        padding: 0.3rem 0.7rem;
+    }
+
+    /* Spacing badge wrapper */
+    .hero-section .mb-4 {
+        margin-bottom: 0.6rem !important;
+    }
+
+    /* Judul utama */
+    .hero-section .display-4 {
+        font-size: 1.65rem;
+        line-height: 1.25;
+        margin-bottom: 0.6rem !important;
+    }
+
+    /* Deskripsi */
+    .hero-section p.fs-5 {
+        font-size: 0.875rem !important;
+        line-height: 1.5;
+        margin-bottom: 0.75rem !important;
+    }
+
+    /* Tombol CTA */
+    .hero-section .btn-lg {
+        padding: 0.45rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+}
+
 /* ── Tablet portrait (576px – 767px) ────────────────────────────── */
 @media (max-width: 767.98px) {
     .hero-slide-content {
         padding-top: 10px;
+    }
+
+    /* Beri ruang untuk tombol panah di kiri/kanan */
+    .hero-slide-content .container {
+        padding-left: 52px !important;
+        padding-right: 52px !important;
     }
 
     .hero-section .display-4 {
@@ -743,6 +818,15 @@
         font-size: 0.75rem !important;
     }
 
+    /* Tombol panah — tempatkan lebih ke tepi */
+    .carousel-control-prev.hero-carousel-btn {
+        left: 6px;
+    }
+
+    .carousel-control-next.hero-carousel-btn {
+        right: 6px;
+    }
+
     /* Indicator */
     .hero-carousel-indicators {
         bottom: 8px;
@@ -773,19 +857,26 @@
         padding-bottom: 4px;
     }
 
-    /* Tombol panah — selalu terlihat di HP */
+    /* Beri ruang untuk tombol panah di kiri/kanan */
+    .hero-slide-content .container {
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+
+    /* Tombol panah — selalu terlihat di HP, tidak blocking sentuhan saat tersembunyi */
     .hero-carousel-btn {
         width: 28px;
         height: 28px;
-        opacity: 0.85 !important;
+        opacity: 0.8 !important;
+        pointer-events: auto !important; /* selalu bisa diklik di HP */
     }
 
     .carousel-control-prev.hero-carousel-btn {
-        left: 5px;
+        left: 4px;
     }
 
     .carousel-control-next.hero-carousel-btn {
-        right: 5px;
+        right: 4px;
     }
 
     .hero-carousel-btn .carousel-control-prev-icon,
