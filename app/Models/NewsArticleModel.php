@@ -21,6 +21,8 @@ class NewsArticleModel extends Model
         'image',
         'author',
         'views',
+        'likes',
+        'dislikes',
         'content',
         'is_published',
     ];
@@ -98,6 +100,8 @@ class NewsArticleModel extends Model
             'image'     => self::publicImageUrl((string) ($row['image'] ?? '')),
             'author'    => (string) ($row['author'] ?? 'Admin'),
             'views'     => number_format($views, 0, ',', '.'),
+            'likes'     => (int) ($row['likes'] ?? 0),
+            'dislikes'  => (int) ($row['dislikes'] ?? 0),
             'content'   => (string) ($row['content'] ?? ''),
         ];
     }

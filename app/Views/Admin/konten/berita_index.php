@@ -90,6 +90,9 @@
                                             href="<?= base_url('berita/' . (int) $row['id']) ?>" target="_blank" rel="noopener noreferrer"
                                             title="Lihat di situs">Lihat</a>
                                     <?php endif; ?>
+                                    <a class="btn btn-sm btn-outline-success rounded-3"
+                                        href="<?= base_url('admin/konten/komentar/' . (int) $row['id']) ?>"
+                                        title="Kelola komentar berita ini">Komentar</a>
                                     <a class="btn btn-sm btn-outline-primary rounded-3"
                                         href="<?= base_url('admin/konten/berita/' . (int) $row['id'] . '/edit') ?>">Edit</a>
                                     <form method="post" action="<?= base_url('admin/konten/berita/' . (int) $row['id'] . '/hapus') ?>"

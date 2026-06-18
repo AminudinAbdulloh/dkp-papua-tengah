@@ -104,6 +104,12 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
         $routes->post('konten/download/(:num)/update', 'KontenDownload::update/$1', ['filter' => 'csrf']);
         $routes->post('konten/download/(:num)/hapus', 'KontenDownload::delete/$1', ['filter' => 'csrf']);
 
+        $routes->get('konten/komentar', 'KontenKomentar::index');
+        $routes->get('konten/komentar/(:num)', 'KontenKomentar::index/$1');
+        $routes->post('konten/komentar/(:num)/setujui', 'KontenKomentar::approve/$1', ['filter' => 'csrf']);
+        $routes->post('konten/komentar/(:num)/tolak', 'KontenKomentar::reject/$1', ['filter' => 'csrf']);
+        $routes->post('konten/komentar/(:num)/hapus', 'KontenKomentar::delete/$1', ['filter' => 'csrf']);
+
         $routes->post('konten/upload-image', 'KontenMedia::uploadImage');
         $routes->post('konten/delete-image', 'KontenMedia::deleteImage');
 
@@ -129,6 +135,9 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
 });
 $routes->get('berita', 'Beranda::berita');
 $routes->get('berita/(:num)', 'Beranda::beritaDetail/$1');
+$routes->post('berita/(:num)/like', 'Beranda::likeNews/$1', ['filter' => 'csrf']);
+$routes->post('berita/(:num)/dislike', 'Beranda::dislikeNews/$1', ['filter' => 'csrf']);
+$routes->post('berita/(:num)/komentar', 'Beranda::submitComment/$1', ['filter' => 'csrf']);
 $routes->get('pengumuman', 'Beranda::pengumuman');
 $routes->get('pengumuman/(:num)', 'Beranda::pengumumanDetail/$1');
 $routes->group('galeri', static function ($routes) {

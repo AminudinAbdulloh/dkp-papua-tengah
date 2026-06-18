@@ -121,10 +121,16 @@ class Beranda extends BaseController
             $news = $this->berandaModel->getNewsDetail($id) ?? $news;
         }
 
+        $comments = [];
+        if (class_exists(\App\Models\NewsCommentModel::class)) {
+            $comments = model(\App\Models\NewsCommentModel::class)->getApprovedComments($id);
+        }
+
         $data = [
             'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
             'footerData' => $this->berandaModel->getPublicFooterData(),
             'news' => $news,
+            'comments' => $comments,
             'popularNews' => $this->berandaModel->getPopularNews((int) $news['id']),
             'pageData' => [
                 'title' => $news['title'],
@@ -139,6 +145,102 @@ class Beranda extends BaseController
         ];
 
         return view('public/berita_detail', $data);
+    }
+
+    public function likeNews(int $id): \CodeIgniter\HTTP\ResponseInterface
+    {
+        $newsModel = model(NewsArticleModel::class);
+        $news = $newsModel->find($id);
+        if (!$news || !$news['is_published']) {
+            return redirect()->back();
+        }
+
+        $session = session();
+        $likedNews = $session->get('liked_news') ?? [];
+        $dislikedNews = $session->get('disliked_news') ?? [];
+
+        if (in_array($id, $likedNews)) {
+            // Unlike
+            $likedNews = array_diff($likedNews, [$id]);
+            $newsModel->update($id, ['likes' => max(0, (int)$news['likes'] - 1)]);
+        } else {
+            // Like
+            $likedNews[] = $id;
+            $newsModel->update($id, ['likes' => (int)$news['likes'] + 1]);
+
+            // Remove dislike if exists
+            if (in_array($id, $dislikedNews)) {
+                $dislikedNews = array_diff($dislikedNews, [$id]);
+                $newsModel->update($id, ['dislikes' => max(0, (int)$news['dislikes'] - 1)]);
+            }
+        }
+
+        $session->set('liked_news', $likedNews);
+        $session->set('disliked_news', $dislikedNews);
+
+        return redirect()->back();
+    }
+
+    public function dislikeNews(int $id): \CodeIgniter\HTTP\ResponseInterface
+    {
+        $newsModel = model(NewsArticleModel::class);
+        $news = $newsModel->find($id);
+        if (!$news || !$news['is_published']) {
+            return redirect()->back();
+        }
+
+        $session = session();
+        $likedNews = $session->get('liked_news') ?? [];
+        $dislikedNews = $session->get('disliked_news') ?? [];
+
+        if (in_array($id, $dislikedNews)) {
+            // Undislike
+            $dislikedNews = array_diff($dislikedNews, [$id]);
+            $newsModel->update($id, ['dislikes' => max(0, (int)$news['dislikes'] - 1)]);
+        } else {
+            // Dislike
+            $dislikedNews[] = $id;
+            $newsModel->update($id, ['dislikes' => (int)$news['dislikes'] + 1]);
+
+            // Remove like if exists
+            if (in_array($id, $likedNews)) {
+                $likedNews = array_diff($likedNews, [$id]);
+                $newsModel->update($id, ['likes' => max(0, (int)$news['likes'] - 1)]);
+            }
+        }
+
+        $session->set('liked_news', $likedNews);
+        $session->set('disliked_news', $dislikedNews);
+
+        return redirect()->back();
+    }
+
+    public function submitComment(int $id): \CodeIgniter\HTTP\ResponseInterface
+    {
+        $newsModel = model(NewsArticleModel::class);
+        $news = $newsModel->find($id);
+        if (!$news || !$news['is_published']) {
+            return redirect()->back();
+        }
+
+        $rules = [
+            'name'    => 'required|max_length[100]',
+            'comment' => 'required|max_length[1000]',
+        ];
+
+        if (!$this->validate($rules)) {
+            return redirect()->back()->withInput()->with('errors', $this->validator->getErrors());
+        }
+
+        $commentModel = model(\App\Models\NewsCommentModel::class);
+        $commentModel->insert([
+            'news_id' => $id,
+            'name'    => esc(trim((string)$this->request->getPost('name'))),
+            'comment' => esc(trim((string)$this->request->getPost('comment'))),
+            'status'  => 'pending',
+        ]);
+
+        return redirect()->back()->with('message', 'Komentar Anda berhasil dikirim dan akan ditampilkan setelah disetujui oleh admin.');
     }
 
     public function galeriFoto(): string
