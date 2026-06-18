@@ -58,7 +58,6 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
         $routes->get('konten/berita', 'KontenBerita::index');
         $routes->get('konten/berita/tambah', 'KontenBerita::create');
         $routes->post('konten/berita/simpan', 'KontenBerita::store', ['filter' => 'csrf']);
-        $routes->post('konten/berita/pengaturan-eksklusif', 'KontenBerita::updateExclusiveLimit', ['filter' => 'csrf']);
         $routes->get('konten/berita/(:num)/edit', 'KontenBerita::edit/$1');
         $routes->post('konten/berita/(:num)/update', 'KontenBerita::update/$1', ['filter' => 'csrf']);
         $routes->post('konten/berita/(:num)/hapus', 'KontenBerita::delete/$1', ['filter' => 'csrf']);

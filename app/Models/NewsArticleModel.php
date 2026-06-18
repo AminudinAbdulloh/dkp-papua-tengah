@@ -127,17 +127,17 @@ class NewsArticleModel extends Model
     }
 
     /**
-     * Mengambil berita terbit yang ditandai eksklusif.
+     * Mengambil semua berita terbit yang ditandai eksklusif.
      *
      * @return array<int, array<string, mixed>>
      */
-    public function getExclusiveNews(int $limit = 5): array
+    public function getExclusiveNews(): array
     {
         $rows = $this->where('is_published', 1)
             ->where('is_exclusive', 1)
             ->orderBy('created_at', 'DESC')
             ->orderBy('id', 'DESC')
-            ->findAll($limit);
+            ->findAll();
 
         $out = [];
         foreach ($rows as $row) {

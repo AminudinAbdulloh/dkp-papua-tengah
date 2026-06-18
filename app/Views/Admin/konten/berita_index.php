@@ -21,24 +21,6 @@
     </a>
 </div>
 
-<div class="card border-0 shadow-sm rounded-4 mb-4">
-    <div class="card-body p-3">
-        <form action="<?= base_url('admin/konten/berita/pengaturan-eksklusif') ?>" method="post" class="row g-3 align-items-center">
-            <?= csrf_field() ?>
-            <div class="col-12 col-md-auto d-flex align-items-center gap-2">
-                <i class="bi bi-gear-fill text-primary"></i>
-                <label for="exclusive_limit" class="form-label small fw-semibold text-secondary mb-0">Limit Tampilan Berita Eksklusif:</label>
-            </div>
-            <div class="col-12 col-md-2">
-                <input type="number" id="exclusive_limit" name="exclusive_limit" class="form-control rounded-3" min="1" max="20" value="<?= esc($exclusiveLimit ?? 5) ?>" required>
-            </div>
-            <div class="col-12 col-md-auto">
-                <button type="submit" class="btn btn-primary rounded-3">Simpan Limit</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <div class="row mb-3">
     <div class="col-12 col-md-6 col-lg-4">
         <form action="" method="get" class="d-flex gap-2">

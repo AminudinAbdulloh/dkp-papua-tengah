@@ -92,12 +92,7 @@ class Beranda extends BaseController
 
         $exclusiveNews = [];
         if (NewsArticleModel::tableReady()) {
-            $settingModel = model(\App\Models\SitePageModel::class);
-            $setting = $settingModel->findBySlug('pengaturan/exclusive-news-limit');
-            $exclusiveLimit = $setting !== null ? (int)$setting['body'] : 5;
-
-            $newsModel = model(NewsArticleModel::class);
-            $exclusiveNews = $newsModel->getExclusiveNews($exclusiveLimit);
+            $exclusiveNews = model(NewsArticleModel::class)->getExclusiveNews();
         }
 
         $data = [
