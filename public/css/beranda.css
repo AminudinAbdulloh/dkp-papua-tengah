@@ -218,18 +218,18 @@
         0 8px 32px rgba(0, 0, 0, 0.35),
         inset 0 1px 0 rgba(255, 255, 255, 0.1);
     overflow: hidden;
-    min-height: 240px;
+    height: 280px; /* tinggi tetap — konsisten di semua slide */
     /* padding sama di kiri, atas, dan bawah — sisi kanan dibuka untuk panel info */
     padding: 1.25rem 0 1.25rem 1.25rem;
 }
 
-/* Each slide — hidden by default */
+/* Each slide — isi penuh tinggi card */
 .exc-slide {
     display: none;
     flex-direction: row;
     align-items: stretch;
     gap: 0;
-    min-height: 240px;
+    height: 100%;
 }
 
 /* Active slide */
@@ -247,6 +247,7 @@
 .exc-img-wrap {
     flex: 0 0 45%;
     max-width: 45%;
+    height: 100%; /* isi penuh tinggi slide */
     display: block;
     overflow: hidden;
     /* semua sudut sama — gambar mengambang di dalam card */
