@@ -95,6 +95,10 @@ body {
     .navbar-logo-tangguh {
         height: 52px;
     }
+
+    .navbar-actions {
+        margin-top: 0;
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199.98px) {
