@@ -172,14 +172,10 @@ class BerandaModel
         if (class_exists(\App\Models\VisitorModel::class) && \App\Models\VisitorModel::tableReady()) {
             $visitorModel = new \App\Models\VisitorModel();
             $stats[0]['value'] = number_format($visitorModel->getTodayVisitors(), 0, ',', '.');
+            $stats[1]['value'] = number_format($visitorModel->getTodayViews(), 0, ',', '.');
             $stats[2]['value'] = number_format($visitorModel->get7DaysVisitors(), 0, ',', '.');
             $stats[3]['value'] = number_format($visitorModel->getTotalVisitors(), 0, ',', '.');
-        }
-
-        if (class_exists(\App\Models\PageViewModel::class) && \App\Models\PageViewModel::tableReady()) {
-            $pageViewModel = new \App\Models\PageViewModel();
-            $stats[1]['value'] = number_format($pageViewModel->getTodayViews(), 0, ',', '.');
-            $stats[4]['value'] = number_format($pageViewModel->getTotalViews(), 0, ',', '.');
+            $stats[4]['value'] = number_format($visitorModel->getTotalViews(), 0, ',', '.');
         }
 
         return [

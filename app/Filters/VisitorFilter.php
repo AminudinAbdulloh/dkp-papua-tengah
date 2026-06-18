@@ -25,6 +25,22 @@ class VisitorFilter implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        $path = trim(uri_string(), '/');
+        
+        // Jangan catat statistik jika mengakses halaman portal atau area admin
+        if ($path === '' || $path === 'admin' || str_starts_with($path, 'admin/')) {
+            return;
+        }
+
+        // Jangan catat statistik untuk file statis / aset (deteksi via ekstensi file)
+        $ext = pathinfo($path, PATHINFO_EXTENSION);
+        if ($ext !== '') {
+            $ignoredExtensions = ['css', 'js', 'png', 'jpg', 'jpeg', 'gif', 'svg', 'ico', 'map', 'woff', 'woff2', 'ttf', 'eot', 'json', 'txt', 'xml', 'pdf', 'zip', 'rar'];
+            if (in_array(strtolower($ext), $ignoredExtensions, true)) {
+                return;
+            }
+        }
+
         $agent = $request->getUserAgent();
         
         // Mencegah bot menambah jumlah statistik
@@ -32,27 +48,68 @@ class VisitorFilter implements FilterInterface
             return;
         }
 
-        $session = \Config\Services::session();
-        
-        // Memastikan data pengunjung tidak bertambah hanya dengan merefresh
-        // dengan menggunakan session `has_visited`
-        if (!$session->has('has_visited') && \App\Models\VisitorModel::tableReady()) {
-            $visitorModel = new \App\Models\VisitorModel();
-            
-            $visitorModel->insert([
-                'ip_address' => $request->getIPAddress(),
-                'user_agent' => $agent->getAgentString(),
-            ]);
-            
-            $session->set('has_visited', true);
+        if (!\App\Models\VisitorModel::tableReady()) {
+            return;
         }
 
-        // Catat setiap tayangan halaman (Page View)
-        if (\App\Models\PageViewModel::tableReady()) {
-            $pageViewModel = new \App\Models\PageViewModel();
-            $pageViewModel->insert([
-                'url' => current_url(),
+        $visitorModel = new \App\Models\VisitorModel();
+
+        // Membaca cookie visitor_token
+        helper('cookie');
+        $cookieToken = get_cookie('visitor_token');
+
+        if (empty($cookieToken)) {
+            // Generate token unik baru
+            $cookieToken = bin2hex(random_bytes(16));
+            
+            // Set cookie visitor_token berdurasi 1 tahun (365 hari = 31.536.000 detik)
+            set_cookie('visitor_token', $cookieToken, 31536000);
+
+            // Simpan visitor baru ke tabel visitors
+            $visitorModel->insert([
+                'cookie_token' => $cookieToken,
+                'ip_address'   => $request->getIPAddress(),
+                'user_agent'   => $agent->getAgentString(),
+                'today_views'  => 1,
+                'total_views'  => 1,
             ]);
+        } else {
+            // Cari visitor di database berdasarkan cookie_token
+            $visitor = $visitorModel->where('cookie_token', $cookieToken)->first();
+
+            if (!$visitor) {
+                // Jika tidak ditemukan (misal DB dikosongkan), buat record baru
+                $visitorModel->insert([
+                    'cookie_token' => $cookieToken,
+                    'ip_address'   => $request->getIPAddress(),
+                    'user_agent'   => $agent->getAgentString(),
+                    'today_views'  => 1,
+                    'total_views'  => 1,
+                ]);
+            } else {
+                // Cek apakah kunjungan terakhir (updated_at) di hari yang sama dengan hari ini
+                $lastUpdated = $visitor['updated_at'] ?? $visitor['created_at'] ?? null;
+                $lastVisitDate = $lastUpdated ? date('Y-m-d', strtotime($lastUpdated)) : '';
+                $todayDate = date('Y-m-d');
+
+                if ($lastVisitDate === $todayDate) {
+                    // Jika hari yang sama: increment today_views dan total_views
+                    $visitorModel->update($visitor['id'], [
+                        'today_views' => (int)$visitor['today_views'] + 1,
+                        'total_views' => (int)$visitor['total_views'] + 1,
+                        'ip_address'  => $request->getIPAddress(),
+                        'user_agent'  => $agent->getAgentString(),
+                    ]);
+                } else {
+                    // Jika hari yang berbeda: set today_views = 1, increment total_views
+                    $visitorModel->update($visitor['id'], [
+                        'today_views' => 1,
+                        'total_views' => (int)$visitor['total_views'] + 1,
+                        'ip_address'  => $request->getIPAddress(),
+                        'user_agent'  => $agent->getAgentString(),
+                    ]);
+                }
+            }
         }
     }
 
