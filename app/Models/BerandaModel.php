@@ -323,7 +323,7 @@ class BerandaModel
     {
         $segments = explode('/', $path);
         $breadcrumbs = [
-            ['label' => 'Beranda', 'href' => base_url('/')],
+            ['label' => 'Beranda', 'href' => base_url('/beranda')],
         ];
 
         if (count($segments) === 2) {

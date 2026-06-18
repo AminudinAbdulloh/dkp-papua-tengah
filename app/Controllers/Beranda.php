@@ -491,7 +491,7 @@ class Beranda extends BaseController
             'allPubCategories'  => $allPubCategories,
             'searchQuery'       => $searchQuery,
             'breadcrumbs'       => [
-                ['label' => 'Beranda',   'href' => base_url('/')],
+                ['label' => 'Beranda',   'href' => base_url('/beranda')],
                 ['label' => 'Publikasi', 'href' => null],
                 ['label' => $typeName,   'href' => null],
             ],
@@ -499,7 +499,7 @@ class Beranda extends BaseController
                 'title'       => 'Publikasi',
                 'description' => 'Daftar dokumen publikasi ' . $typeName . '.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda',  'href' => base_url('/')],
+                    ['label' => 'Beranda',  'href' => base_url('/beranda')],
                     ['label' => $typeName,  'href' => null],
                 ],
             ],
@@ -564,7 +564,7 @@ class Beranda extends BaseController
             'allPubCategories'     => $allPubCategories,
             'currentPubCategoryId' => $currentPubCategoryId,
             'breadcrumbs'          => [
-                ['label' => 'Beranda',    'href' => base_url('/')],
+                ['label' => 'Beranda',    'href' => base_url('/beranda')],
                 ['label' => 'Publikasi',  'href' => null],
                 ['label' => $typeName,    'href' => base_url('publikasi/' . $typeSlug)],
                 ['label' => $docTitle,    'href' => null],
@@ -573,7 +573,7 @@ class Beranda extends BaseController
                 'title'       => $docTitle,
                 'description' => 'Detail dokumen publikasi.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda',  'href' => base_url('/')],
+                    ['label' => 'Beranda',  'href' => base_url('/beranda')],
                     ['label' => $docTitle,  'href' => null],
                 ],
             ],
