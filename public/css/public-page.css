@@ -41,8 +41,7 @@
 
 .hero-orbs,
 .hero-grid-pattern,
-.hero-stripes,
-.hero-floating-icons {
+.hero-stripes {
     position: absolute;
     inset: 0;
 }
@@ -105,11 +104,6 @@
         var(--overlay-white-20) 10px,
         var(--overlay-white-20) 20px
     );
-}
-
-.hero-floating-icons {
-    overflow: hidden;
-    pointer-events: none;
 }
 
 .icon-float {

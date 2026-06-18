@@ -18,13 +18,6 @@ if ($heroBackgroundImage !== '') {
     <div class="hero-grid-pattern"></div>
     <div class="hero-stripes"></div>
 
-    <div class="hero-floating-icons" aria-hidden="true">
-        <i class="bi bi-water icon-float float-1"></i>
-        <i class="bi bi-water icon-float float-2"></i>
-        <i class="bi bi-anchor icon-float float-3"></i>
-        <i class="bi bi-droplet icon-float float-4"></i>
-    </div>
-
     <div class="container px-4 px-sm-5 px-lg-5 hero-content-wrap">
 
         <?php if (!empty($breadcrumbs)): ?>
