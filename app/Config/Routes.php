@@ -9,15 +9,15 @@ $routes->get('/', 'Beranda::portal');
 $routes->get('beranda', 'Beranda::index');
 
 
-$routes->get('login', static fn () => redirect()->to(base_url('admin/login')));
+$routes->get('login', static fn () => redirect()->to(base_url('admin')));
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
-    $routes->get('login', 'Auth::login');
-    $routes->post('login', 'Auth::attemptLogin', ['filter' => 'csrf']);
+    $routes->get('/', 'Auth::login');
+    $routes->post('/', 'Auth::attemptLogin', ['filter' => 'csrf']);
     $routes->get('logout', 'Auth::logout');
+    $routes->get('login', static fn () => redirect()->to(base_url('admin')));
 
     $routes->group('', ['filter' => 'adminauth'], static function ($routes) {
-        $routes->get('/', 'Dashboard::index');
         $routes->get('dashboard', 'Dashboard::index');
 
         $routes->get('konten/sejarah', 'KontenSejarah::index');

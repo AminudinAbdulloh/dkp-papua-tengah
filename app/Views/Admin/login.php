@@ -36,7 +36,7 @@
                     </div>
                 <?php endif; ?>
 
-                <form method="post" action="<?= base_url('admin/login') ?>" novalidate>
+                <form method="post" action="<?= base_url('admin') ?>" novalidate>
                     <?= csrf_field() ?>
 
                     <div class="mb-3">

@@ -86,10 +86,6 @@
                     <button class="btn rounded-3 border-0 theme-toggle-btn" id="themeToggle" title="Toggle Theme">
                         <i class="bi bi-moon-stars" id="themeIcon"></i>
                     </button>
-                    <a href="<?= base_url('admin/login') ?>"
-                        class="btn btn-primary px-4 rounded-3 fw-medium d-flex align-items-center gap-2">
-                        <i class="bi bi-box-arrow-in-right"></i> Login
-                    </a>
                 </div>
             </div>
         </div>

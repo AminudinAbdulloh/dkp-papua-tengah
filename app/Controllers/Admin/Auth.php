@@ -69,7 +69,7 @@ class Auth extends BaseController
         session()->remove(['admin_logged_in', 'admin_id', 'admin_email', 'admin_name']);
         session()->regenerate(true);
 
-        $response = redirect()->to(base_url('admin/login'));
+        $response = redirect()->to(base_url('admin'));
 
         return $wasLoggedIn ? $response->with('message', 'Anda telah keluar.') : $response;
     }
