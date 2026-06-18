@@ -9,7 +9,7 @@ $routes->get('/', 'Beranda::portal');
 $routes->get('beranda', 'Beranda::index');
 
 
-$routes->get('login', static fn () => redirect()->to(base_url('admin')));
+$routes->get('login', static fn () => throw new \CodeIgniter\Exceptions\PageNotFoundException());
 
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static function ($routes) {
     $routes->get('/', 'Auth::login');
