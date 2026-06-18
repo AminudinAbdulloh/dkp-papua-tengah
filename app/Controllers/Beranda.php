@@ -99,7 +99,7 @@ class Beranda extends BaseController
                 'title' => 'Berita',
                 'description' => 'Informasi dan kegiatan terbaru Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Berita', 'href' => null],
                 ],
             ],
@@ -131,7 +131,7 @@ class Beranda extends BaseController
                 'description' => 'Berita terbaru Dinas Kelautan dan Perikanan Papua Tengah.',
                 'backgroundImage' => $news['image'] ?? null,
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Berita', 'href' => base_url('berita')],
                     ['label' => $news['title'], 'href' => null],
                 ],
@@ -158,7 +158,7 @@ class Beranda extends BaseController
                 'title' => 'Galeri Foto',
                 'description' => 'Dokumentasi visual kegiatan dan potensi sektor kelautan dan perikanan Papua Tengah.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Galeri Foto', 'href' => null],
                 ],
             ],
@@ -185,7 +185,7 @@ class Beranda extends BaseController
                 'description' => 'Detail dokumentasi kegiatan dan potensi sektor kelautan dan perikanan Papua Tengah.',
                 'backgroundImage' => $photo['image'] ?? null,
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Galeri Foto', 'href' => base_url('galeri/foto')],
                     ['label' => $photo['title'], 'href' => null],
                 ],
@@ -212,7 +212,7 @@ class Beranda extends BaseController
                 'title' => 'Galeri Video',
                 'description' => 'Kumpulan video kegiatan, edukasi, dan profil sektor kelautan serta perikanan Papua Tengah.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Galeri Video', 'href' => null],
                 ],
             ],
@@ -241,7 +241,7 @@ class Beranda extends BaseController
                 'title'       => 'Pengumuman',
                 'description' => 'Pengumuman resmi dan edaran terkait layanan Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Pengumuman', 'href' => null],
                 ],
             ],
@@ -272,7 +272,7 @@ class Beranda extends BaseController
                 'title'       => $title,
                 'description' => 'Detail pengumuman resmi Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Pengumuman', 'href' => base_url('pengumuman')],
                     ['label' => $title, 'href' => null],
                 ],
@@ -382,7 +382,7 @@ class Beranda extends BaseController
         }
 
         $breadcrumbs = [
-            ['label' => 'Beranda', 'href' => base_url('/')],
+            ['label' => 'Beranda', 'href' => base_url('/beranda')],
             ['label' => 'PPID', 'href' => null],
         ];
         if ($modelCategory !== null) {
@@ -733,7 +733,7 @@ class Beranda extends BaseController
                 'title'       => 'Pusat Unduhan',
                 'description' => 'Kumpulan dokumen, regulasi, dan informasi resmi yang dapat diunduh publik.',
                 'breadcrumbs' => [
-                    ['label' => 'Beranda', 'href' => base_url('/')],
+                    ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Download', 'href' => null],
                 ],
             ],
