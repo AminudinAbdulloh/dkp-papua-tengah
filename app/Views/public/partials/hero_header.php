@@ -5,7 +5,7 @@ $heroBackgroundImage = isset($pageData['backgroundImage']) ? trim((string) $page
 $heroStyle = '';
 
 if ($heroBackgroundImage !== '') {
-    $heroStyle = ' style="background-image: linear-gradient(135deg, rgba(8, 47, 73, 0.74), rgba(8, 47, 73, 0.6)), url(\'' . esc($heroBackgroundImage, 'attr') . '\');"';
+    $heroStyle = ' style="background-image: linear-gradient(135deg, rgba(8, 47, 73, 0.62), rgba(8, 47, 73, 0.4)), url(\'' . esc($heroBackgroundImage, 'attr') . '\');"';
 }
 ?>
 
