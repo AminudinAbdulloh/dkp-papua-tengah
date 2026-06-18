@@ -68,7 +68,7 @@ if (is_array($errs) && $errs !== []) { ?>
                 <?php endif; ?>
                 <input type="file" class="form-control rounded-3" id="banner_image" name="banner_image"
                     accept="image/jpeg,image/png,image/jpg,image/webp" <?= $isEdit ? '' : 'required' ?>>
-                <div class="form-text">Maks. 5MB. Format JPG, PNG, atau WebP.</div>
+                <div class="form-text">Maks. 5MB. Format JPG, PNG, atau WebP. Rekomendasi resolusi: 2400×1000px.</div>
             </div>
 
             <div class="row g-4 mb-4">
