@@ -86,11 +86,7 @@ body {
 }
 
 .portal-hero-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: var(--portal-overlay, rgba(0, 30, 80, 0.38));
-    transition: background 0.8s ease;
+    display: none;
 }
 
 .portal-content {
