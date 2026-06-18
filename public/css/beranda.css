@@ -817,6 +817,15 @@
     padding: 1.5rem;
     color: var(--color-zinc-700);
     line-height: 1.8;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
+}
+
+.detail-content img {
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
 }
 
 .detail-content p,
