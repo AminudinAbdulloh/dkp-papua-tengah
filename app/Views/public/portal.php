@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="<?= base_url('css/portal.css') ?>">
 
 </head>
-<body>
+<body data-theme="light">
 
 <main class="portal-hero">
     <!-- Background -->
@@ -285,19 +285,6 @@ $agencyName = $agency['name'] ?? 'Dinas Kelautan dan Perikanan Papua Tengah';
             items.forEach(el => el.classList.remove('active'));
         }
     });
-    // ── Auto Theme: Dark Mode (18:00–05:59) / Light Mode (06:00–17:59) ──
-    (function autoTheme() {
-        function getTheme() {
-            const h = new Date().getHours();
-            return (h >= 18 || h < 6) ? 'dark' : 'light';
-        }
-        document.body.setAttribute('data-theme', getTheme());
-        // Periksa ulang tiap 60 detik saat melewati batas jam
-        setTimeout(function check() {
-            document.body.setAttribute('data-theme', getTheme());
-            setTimeout(check, 60000);
-        }, 60000);
-    })();
 
 })();
 </script>
