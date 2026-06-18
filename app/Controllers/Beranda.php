@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\BerandaModel;
+use App\Models\HeroBannerModel;
 use App\Models\InformationObjectionModel;
 use App\Models\InformationRequestModel;
 use App\Models\NewsArticleModel;
@@ -49,11 +50,26 @@ class Beranda extends BaseController
 
         $newsList = $this->berandaModel->getNewsList(3);
 
+        $sitePageModel = model(\App\Models\SitePageModel::class);
+        $modeSetting = $sitePageModel->findBySlug(\App\Models\SitePageModel::SLUG_PENGATURAN_HERO_SLIDE_MODE);
+        $heroSlideMode = \App\Models\SitePageModel::HERO_SLIDE_MODE_BERITA;
+        if ($modeSetting !== null && in_array($modeSetting['body'], [\App\Models\SitePageModel::HERO_SLIDE_MODE_BERITA, \App\Models\SitePageModel::HERO_SLIDE_MODE_BANNER], true)) {
+            $heroSlideMode = $modeSetting['body'];
+        }
+
+        $heroExtraSlides = [];
+        if ($heroSlideMode === \App\Models\SitePageModel::HERO_SLIDE_MODE_BANNER && HeroBannerModel::tableReady()) {
+            $heroExtraSlides = model(HeroBannerModel::class)->getActiveForHero();
+        } else {
+            $heroExtraSlides = $newsList;
+        }
+
         $data = [
-            'heroBg'        => $heroBg,
-            'heroSlides'    => $newsList,
-            'services'      => $this->berandaModel->getServices(),
-            'newsList'      => $newsList,
+            'heroBg'          => $heroBg,
+            'heroSlideMode'   => $heroSlideMode,
+            'heroExtraSlides' => $heroExtraSlides,
+            'services'        => $this->berandaModel->getServices(),
+            'newsList'        => $newsList,
             'galleryPhotos' => $this->berandaModel->getGalleryPhotos(8),
             'latestVideos'  => $this->berandaModel->getLatestVideos(),
             'menuNavigasi'  => $this->berandaModel->getPublicNavigationMenu(),

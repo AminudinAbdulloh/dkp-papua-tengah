@@ -89,6 +89,20 @@
     width: 100%;
 }
 
+/* Slide banner ucapan — tanpa overlay gradient */
+.hero-banner-slide {
+    position: relative;
+}
+
+.hero-banner-slide > .hero-bg-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
 /* Overlay untuk slide berita — lebih gelap di kiri */
 .hero-overlay-news {
     background: linear-gradient(to right,

@@ -14,10 +14,14 @@
 
 <!-- Hero Section -->
 <?php
-$defaultBg   = $heroBg ?? 'https://images.unsplash.com/photo-1689505630546-bebf6e52dce2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxmaXNoZXJtYW4lMjBvY2VhbiUyMGluZG9uZXNpYXxlbnwxfHx8fDE3NzU4MzcwNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080';
-$slides      = $heroSlides ?? [];
-$hasSlides   = ! empty($slides);
-$totalSlides = $hasSlides ? count($slides) + 1 : 1;
+use App\Models\SitePageModel;
+
+$defaultBg       = $heroBg ?? 'https://images.unsplash.com/photo-1689505630546-bebf6e52dce2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHw0fHxmaXNoZXJtYW4lMjBvY2VhbiUyMGluZG9uZXNpYXxlbnwxfHx8fDE3NzU4MzcwNjZ8MA&ixlib=rb-4.1.0&q=80&w=1080';
+$slides          = $heroExtraSlides ?? ($heroSlides ?? []);
+$heroSlideMode   = $heroSlideMode ?? SitePageModel::HERO_SLIDE_MODE_BERITA;
+$isBannerMode    = $heroSlideMode === SitePageModel::HERO_SLIDE_MODE_BANNER;
+$hasSlides       = ! empty($slides);
+$totalSlides     = $hasSlides ? count($slides) + 1 : 1;
 ?>
 <section class="hero-section hero-carousel-wrap" aria-label="Hero Beranda">
     <div id="heroCarousel" class="carousel slide carousel-fade h-100"
@@ -51,40 +55,50 @@ $totalSlides = $hasSlides ? count($slides) + 1 : 1;
                 </div>
             </div>
 
-            <!-- Slide 1-3: Berita -->
+            <!-- Slide tambahan: Berita Terbaru atau Banner Ucapan -->
             <?php foreach ($slides as $slide) : ?>
-                <?php
-                $sImg     = ! empty($slide['image']) ? $slide['image'] : $defaultBg;
-                $sTitle   = $slide['title'] ?? '';
-                $sId      = (int) ($slide['id'] ?? 0);
-                $sExcerpt = $slide['excerpt'] ?? '';
-                ?>
-                <div class="carousel-item h-100">
-                    <img src="<?= esc($sImg) ?>" alt="<?= esc($sTitle) ?>" class="hero-bg-img">
-                    <div class="hero-overlay hero-overlay-news"></div>
-                    <div class="hero-slide-content d-flex align-items-center h-100">
-                        <div class="container px-4 px-lg-2">
-                            <div class="row">
-                                <div class="col-lg-7 hero-anim-el">
-                                    <div class="mb-3">
-                                        <span class="badge-custom">
-                                            <i class="bi bi-newspaper me-1"></i>Berita Terkini
-                                        </span>
+                <?php if ($isBannerMode) : ?>
+                    <?php
+                    $bImg   = ! empty($slide['image']) ? $slide['image'] : $defaultBg;
+                    $bTitle = $slide['title'] ?? 'Banner Ucapan';
+                    ?>
+                    <div class="carousel-item h-100 hero-banner-slide">
+                        <img src="<?= esc($bImg, 'attr') ?>" alt="<?= esc($bTitle) ?>" class="hero-bg-img">
+                    </div>
+                <?php else : ?>
+                    <?php
+                    $sImg     = ! empty($slide['image']) ? $slide['image'] : $defaultBg;
+                    $sTitle   = $slide['title'] ?? '';
+                    $sId      = (int) ($slide['id'] ?? 0);
+                    $sExcerpt = $slide['excerpt'] ?? '';
+                    ?>
+                    <div class="carousel-item h-100">
+                        <img src="<?= esc($sImg) ?>" alt="<?= esc($sTitle) ?>" class="hero-bg-img">
+                        <div class="hero-overlay hero-overlay-news"></div>
+                        <div class="hero-slide-content d-flex align-items-center h-100">
+                            <div class="container px-4 px-lg-2">
+                                <div class="row">
+                                    <div class="col-lg-7 hero-anim-el">
+                                        <div class="mb-3">
+                                            <span class="badge-custom">
+                                                <i class="bi bi-newspaper me-1"></i>Berita Terkini
+                                            </span>
+                                        </div>
+                                        <h2 class="hero-news-title fw-bold text-white mb-3"><?= esc($sTitle) ?></h2>
+                                        <?php if ($sExcerpt !== '') : ?>
+                                            <p class="hero-news-excerpt text-light mb-4"><?= esc($sExcerpt) ?></p>
+                                        <?php endif; ?>
+                                        <?php if ($sId > 0) : ?>
+                                            <a href="<?= base_url('berita/' . $sId) ?>" class="btn btn-primary btn-lg px-4 py-3">
+                                                <i class="bi bi-arrow-right me-2"></i>Selengkapnya
+                                            </a>
+                                        <?php endif; ?>
                                     </div>
-                                    <h2 class="hero-news-title fw-bold text-white mb-3"><?= esc($sTitle) ?></h2>
-                                    <?php if ($sExcerpt !== '') : ?>
-                                        <p class="hero-news-excerpt text-light mb-4"><?= esc($sExcerpt) ?></p>
-                                    <?php endif; ?>
-                                    <?php if ($sId > 0) : ?>
-                                        <a href="<?= base_url('berita/' . $sId) ?>" class="btn btn-primary btn-lg px-4 py-3">
-                                            <i class="bi bi-arrow-right me-2"></i>Selengkapnya
-                                        </a>
-                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                <?php endif; ?>
             <?php endforeach; ?>
         </div>
 

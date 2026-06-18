@@ -122,6 +122,11 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
 
         $routes->get('pengaturan-beranda', 'PengaturanBeranda::index');
         $routes->post('pengaturan-beranda/update', 'PengaturanBeranda::update', ['filter' => 'csrf']);
+        $routes->get('pengaturan-beranda/banner-ucapan/tambah', 'PengaturanBeranda::createBanner');
+        $routes->post('pengaturan-beranda/banner-ucapan/simpan', 'PengaturanBeranda::storeBanner', ['filter' => 'csrf']);
+        $routes->get('pengaturan-beranda/banner-ucapan/(:num)/edit', 'PengaturanBeranda::editBanner/$1');
+        $routes->post('pengaturan-beranda/banner-ucapan/(:num)/update', 'PengaturanBeranda::updateBanner/$1', ['filter' => 'csrf']);
+        $routes->post('pengaturan-beranda/banner-ucapan/(:num)/hapus', 'PengaturanBeranda::deleteBanner/$1', ['filter' => 'csrf']);
         $routes->get('pengaturan-header', 'PengaturanHeader::index');
         $routes->post('pengaturan-header/update', 'PengaturanHeader::update', ['filter' => 'csrf']);
 

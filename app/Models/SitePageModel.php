@@ -14,6 +14,9 @@ class SitePageModel extends Model
     public const SLUG_PROFIL_KONTAK = 'profil/kontak';
     public const SLUG_LAYANAN_ALUR_INFORMASI = 'layanan/alur-permohonan-informasi';
     public const SLUG_PENGATURAN_BERANDA = 'pengaturan/beranda';
+    public const SLUG_PENGATURAN_HERO_SLIDE_MODE = 'pengaturan/hero-slide-mode';
+    public const HERO_SLIDE_MODE_BERITA = 'berita';
+    public const HERO_SLIDE_MODE_BANNER = 'banner';
     public const SLUG_PENGATURAN_HEADER_PROFIL = 'pengaturan/header-profil';
     public const SLUG_PENGATURAN_HEADER_INFORMASI = 'pengaturan/header-informasi';
     public const SLUG_PENGATURAN_HEADER_GALERI = 'pengaturan/header-galeri';
