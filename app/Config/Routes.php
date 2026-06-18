@@ -116,6 +116,8 @@ $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], static functio
 
         $routes->get('pengaturan-beranda', 'PengaturanBeranda::index');
         $routes->post('pengaturan-beranda/update', 'PengaturanBeranda::update', ['filter' => 'csrf']);
+        $routes->get('pengaturan-header', 'PengaturanHeader::index');
+        $routes->post('pengaturan-header/update', 'PengaturanHeader::update', ['filter' => 'csrf']);
 
         $routes->get('manajemen-user', 'ManajemenUser::index');
         $routes->get('manajemen-user/tambah', 'ManajemenUser::create');

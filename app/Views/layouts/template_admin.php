@@ -122,6 +122,7 @@
                 <!-- Pengaturan -->
                 <p class="admin-sidebar-label px-3 mb-2 mt-4">Pengaturan</p>
                 <?= $sidebarNav('pengaturan-beranda', 'Pengaturan Beranda', base_url('admin/pengaturan-beranda'), 'bi-house-gear') ?>
+                <?= $sidebarNav('pengaturan-header',  'Pengaturan Header',  base_url('admin/pengaturan-header'),  'bi-image') ?>
                 <?= $sidebarNav('manajemen-user',     'Manajemen User',     base_url('admin/manajemen-user'),     'bi-person-gear') ?>
 
             </nav>
@@ -188,6 +189,7 @@
                     <!-- Pengaturan -->
                     <p class="admin-sidebar-label px-3 mb-2 mt-3">Pengaturan</p>
                     <?= $sidebarNav('pengaturan-beranda', 'Pengaturan Beranda', base_url('admin/pengaturan-beranda'), 'bi-house-gear') ?>
+                    <?= $sidebarNav('pengaturan-header',  'Pengaturan Header',  base_url('admin/pengaturan-header'),  'bi-image') ?>
                     <?= $sidebarNav('manajemen-user',     'Manajemen User',     base_url('admin/manajemen-user'),     'bi-person-gear') ?>
                 </nav>
             </div>
