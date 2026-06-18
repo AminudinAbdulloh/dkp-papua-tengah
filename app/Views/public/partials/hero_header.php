@@ -74,14 +74,116 @@ if ($heroBackgroundImage !== '') {
             </div>
         <?php endif ?>
 
-        <div class="hero-text-block">
-            <div class="hero-title-line"></div>
-            <h1><?= esc($pageData['title'] ?? 'Halaman Informasi') ?></h1>
-            <p><?= esc($pageData['description'] ?? '') ?></p>
-            <div class="hero-dots" aria-hidden="true">
-                <span></span><span></span><span></span>
+        <?php if (!empty($exclusiveNews)): ?>
+            <div class="row align-items-center g-4 mt-1">
+                <!-- Left Column: Title & Description -->
+                <div class="col-lg-5">
+                    <div class="hero-text-block text-start mb-0">
+                        <div class="hero-title-line"></div>
+                        <h1><?= esc($pageData['title'] ?? 'Berita') ?></h1>
+                        <p class="mb-4"><?= esc($pageData['description'] ?? '') ?></p>
+                        <div class="hero-dots" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Right Column: Exclusive Glassmorphism Slider Card -->
+                <div class="col-lg-7">
+                    <div class="exc-card" id="exclusiveSlider">
+                        <!-- Slides -->
+                        <?php foreach ($exclusiveNews as $index => $item): ?>
+                            <div class="exc-slide<?= $index === 0 ? ' exc-slide--active' : '' ?>" data-index="<?= $index ?>">
+                                <!-- Left: Image -->
+                                <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-img-wrap text-decoration-none">
+                                    <img src="<?= esc($item['image']) ?>" alt="<?= esc($item['title']) ?>" class="exc-img" loading="lazy">
+                                </a>
+                                <!-- Right: Info -->
+                                <div class="exc-info">
+                                    <span class="exc-badge">
+                                        <i class="bi bi-star-fill me-1" style="font-size:0.65rem;"></i>Berita Eksklusif
+                                    </span>
+                                    <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-title text-decoration-none">
+                                        <?= esc($item['title']) ?>
+                                    </a>
+                                    <p class="exc-date">
+                                        <i class="bi bi-calendar3 me-1"></i>
+                                        <?= esc($item['date']) ?>
+                                    </p>
+                                    <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-read-btn">
+                                        Baca Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+
+                        <?php if (count($exclusiveNews) > 1): ?>
+                            <!-- Prev / Next Arrows -->
+                            <button class="exc-arrow exc-arrow--prev" id="excPrev" aria-label="Sebelumnya">
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <button class="exc-arrow exc-arrow--next" id="excNext" aria-label="Berikutnya">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                            <!-- Pagination Dots -->
+                            <div class="exc-dots" id="excDots">
+                                <?php foreach ($exclusiveNews as $index => $item): ?>
+                                    <button class="exc-dot<?= $index === 0 ? ' exc-dot--active' : '' ?>"
+                                            data-to="<?= $index ?>" aria-label="Slide <?= $index + 1 ?>"></button>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
-        </div>
+
+            <script>
+            (function() {
+                document.addEventListener('DOMContentLoaded', function () {
+                    const slides  = document.querySelectorAll('#exclusiveSlider .exc-slide');
+                    const dots    = document.querySelectorAll('#excDots .exc-dot');
+                    const btnPrev = document.getElementById('excPrev');
+                    const btnNext = document.getElementById('excNext');
+                    if (!slides.length) return;
+
+                    let current = 0;
+                    let timer   = null;
+                    const INTERVAL = 5000;
+
+                    function goTo(n) {
+                        slides[current].classList.remove('exc-slide--active');
+                        if (dots[current]) dots[current].classList.remove('exc-dot--active');
+                        current = (n + slides.length) % slides.length;
+                        slides[current].classList.add('exc-slide--active');
+                        if (dots[current]) dots[current].classList.add('exc-dot--active');
+                    }
+
+                    function startAuto() {
+                        if (slides.length < 2) return;
+                        timer = setInterval(() => goTo(current + 1), INTERVAL);
+                    }
+
+                    function resetAuto() { clearInterval(timer); startAuto(); }
+
+                    if (btnPrev) btnPrev.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
+                    if (btnNext) btnNext.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
+                    dots.forEach(dot => {
+                        dot.addEventListener('click', () => { goTo(+dot.dataset.to); resetAuto(); });
+                    });
+
+                    startAuto();
+                });
+            })();
+            </script>
+        <?php else: ?>
+            <div class="hero-text-block">
+                <div class="hero-title-line"></div>
+                <h1><?= esc($pageData['title'] ?? 'Halaman Informasi') ?></h1>
+                <p><?= esc($pageData['description'] ?? '') ?></p>
+                <div class="hero-dots" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+        <?php endif; ?>
     </div>
 
     <div class="hero-wave-divider" aria-hidden="true">

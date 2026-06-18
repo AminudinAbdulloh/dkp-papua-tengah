@@ -29,12 +29,17 @@ class KontenBerita extends BaseController
             ->orderBy('id', 'DESC')
             ->paginate(10, 'admin');
 
+        $settingModel = model(\App\Models\SitePageModel::class);
+        $setting = $settingModel->findBySlug('pengaturan/exclusive-news-limit');
+        $exclusiveLimit = $setting !== null ? (int)$setting['body'] : 5;
+
         return view('admin/konten/berita_index', [
-            'title'       => 'Kelola Berita',
-            'adminNav'    => 'konten-berita',
-            'articles'    => $rows,
-            'pager'       => $model->pager,
-            'searchQuery' => $q,
+            'title'          => 'Kelola Berita',
+            'adminNav'       => 'konten-berita',
+            'articles'       => $rows,
+            'pager'          => $model->pager,
+            'searchQuery'    => $q,
+            'exclusiveLimit' => $exclusiveLimit,
         ]);
     }
 
@@ -68,6 +73,32 @@ class KontenBerita extends BaseController
         cleanup_unused_editor_uploads();
 
         return redirect()->to(base_url('admin/konten/berita'))->with('message', 'Berita berhasil ditambahkan.');
+    }
+
+    public function updateExclusiveLimit(): ResponseInterface
+    {
+        $limit = (int) $this->request->getPost('exclusive_limit');
+        if ($limit < 1) {
+            $limit = 5;
+        }
+
+        $settingModel = model(\App\Models\SitePageModel::class);
+        $setting = $settingModel->findBySlug('pengaturan/exclusive-news-limit');
+
+        if ($setting === null) {
+            $settingModel->insert([
+                'slug'        => 'pengaturan/exclusive-news-limit',
+                'title'       => 'Limit Berita Eksklusif',
+                'description' => 'Jumlah maksimal berita eksklusif yang ditampilkan di halaman berita',
+                'body'        => (string) $limit,
+            ]);
+        } else {
+            $settingModel->update($setting['id'], [
+                'body' => (string) $limit,
+            ]);
+        }
+
+        return redirect()->to(base_url('admin/konten/berita'))->with('message', 'Limit berita eksklusif berhasil diperbarui.');
     }
 
     public function edit(int $id): ResponseInterface|string
@@ -164,6 +195,7 @@ class KontenBerita extends BaseController
             'author'       => trim((string) $this->request->getPost('author')) ?: null,
             'content'      => safe_admin_html((string) $this->request->getPost('content')),
             'is_published' => $status === 'publish' ? 1 : 0,
+            'is_exclusive' => (int) $this->request->getPost('is_exclusive'),
         ];
     }
 

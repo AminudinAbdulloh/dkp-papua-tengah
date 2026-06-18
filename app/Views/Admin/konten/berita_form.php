@@ -91,6 +91,13 @@ if (is_array($errs) && $errs !== []) { ?>
             </div>
 
             <div class="mb-4">
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="is_exclusive" name="is_exclusive" value="1" <?= old('is_exclusive', (string) ($a['is_exclusive'] ?? '')) === '1' || (!empty($a['is_exclusive']) && (int)$a['is_exclusive'] === 1) ? 'checked' : '' ?>>
+                    <label class="form-check-label fw-semibold" for="is_exclusive">Jadikan Berita Eksklusif (Tampil di Hero Slider Halaman Berita)</label>
+                </div>
+            </div>
+
+            <div class="mb-4">
                 <label for="status" class="form-label fw-semibold">Status</label>
                 <select class="form-select form-select-lg rounded-3" id="status" name="status" required>
                     <option value="draft" <?= $statusOld === 'draft' ? 'selected' : '' ?>>Draft</option>

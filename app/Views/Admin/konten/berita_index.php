@@ -21,6 +21,24 @@
     </a>
 </div>
 
+<div class="card border-0 shadow-sm rounded-4 mb-4">
+    <div class="card-body p-3">
+        <form action="<?= base_url('admin/konten/berita/pengaturan-eksklusif') ?>" method="post" class="row g-3 align-items-center">
+            <?= csrf_field() ?>
+            <div class="col-12 col-md-auto d-flex align-items-center gap-2">
+                <i class="bi bi-gear-fill text-primary"></i>
+                <label for="exclusive_limit" class="form-label small fw-semibold text-secondary mb-0">Limit Tampilan Berita Eksklusif:</label>
+            </div>
+            <div class="col-12 col-md-2">
+                <input type="number" id="exclusive_limit" name="exclusive_limit" class="form-control rounded-3" min="1" max="20" value="<?= esc($exclusiveLimit ?? 5) ?>" required>
+            </div>
+            <div class="col-12 col-md-auto">
+                <button type="submit" class="btn btn-primary rounded-3">Simpan Limit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="row mb-3">
     <div class="col-12 col-md-6 col-lg-4">
         <form action="" method="get" class="d-flex gap-2">
@@ -78,11 +96,16 @@
                                 <td class="d-none d-lg-table-cell text-end small"><?= esc(number_format($viewsN, 0, ',', '.')) ?></td>
                                 <td class="d-none d-lg-table-cell"><?= esc((string) ($row['author'] ?? '—')) ?></td>
                                 <td>
-                                    <?php if ($pub) : ?>
-                                        <span class="badge text-bg-success rounded-pill">Terbit</span>
-                                    <?php else : ?>
-                                        <span class="badge text-bg-secondary rounded-pill">Draft</span>
-                                    <?php endif; ?>
+                                    <div class="d-flex flex-column gap-1 align-items-start">
+                                        <?php if ($pub) : ?>
+                                            <span class="badge text-bg-success rounded-pill">Terbit</span>
+                                        <?php else : ?>
+                                            <span class="badge text-bg-secondary rounded-pill">Draft</span>
+                                        <?php endif; ?>
+                                        <?php if ((int)($row['is_exclusive'] ?? 0) === 1) : ?>
+                                            <span class="badge text-bg-warning rounded-pill text-dark" style="font-size: 0.75rem;"><i class="bi bi-star-fill me-1"></i>Eksklusif</span>
+                                        <?php endif; ?>
+                                    </div>
                                 </td>
                                 <td class="pe-4 text-end text-nowrap">
                                     <?php if ($pub) : ?>

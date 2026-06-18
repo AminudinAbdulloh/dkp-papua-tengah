@@ -25,6 +25,7 @@ class NewsArticleModel extends Model
         'dislikes',
         'content',
         'is_published',
+        'is_exclusive',
     ];
 
     protected $useTimestamps = true;
@@ -93,16 +94,17 @@ class NewsArticleModel extends Model
         }
 
         return [
-            'id'        => (int) $row['id'],
-            'date'      => self::formatIndonesianDate($dateKey),
-            'title'     => (string) ($row['title'] ?? ''),
-            'excerpt'   => (string) ($row['excerpt'] ?? ''),
-            'image'     => self::publicImageUrl((string) ($row['image'] ?? '')),
-            'author'    => (string) ($row['author'] ?? 'Admin'),
-            'views'     => number_format($views, 0, ',', '.'),
-            'likes'     => (int) ($row['likes'] ?? 0),
-            'dislikes'  => (int) ($row['dislikes'] ?? 0),
-            'content'   => (string) ($row['content'] ?? ''),
+            'id'           => (int) $row['id'],
+            'date'         => self::formatIndonesianDate($dateKey),
+            'title'        => (string) ($row['title'] ?? ''),
+            'excerpt'      => (string) ($row['excerpt'] ?? ''),
+            'image'        => self::publicImageUrl((string) ($row['image'] ?? '')),
+            'author'       => (string) ($row['author'] ?? 'Admin'),
+            'views'        => number_format($views, 0, ',', '.'),
+            'likes'        => (int) ($row['likes'] ?? 0),
+            'dislikes'     => (int) ($row['dislikes'] ?? 0),
+            'content'      => (string) ($row['content'] ?? ''),
+            'is_exclusive' => (int) ($row['is_exclusive'] ?? 0),
         ];
     }
 
@@ -115,6 +117,27 @@ class NewsArticleModel extends Model
             ->orderBy('created_at', 'DESC')
             ->orderBy('id', 'DESC')
             ->paginate($limit, 'public');
+
+        $out = [];
+        foreach ($rows as $row) {
+            $out[] = $this->rowToPublicShape($row);
+        }
+
+        return $out;
+    }
+
+    /**
+     * Mengambil berita terbit yang ditandai eksklusif.
+     *
+     * @return array<int, array<string, mixed>>
+     */
+    public function getExclusiveNews(int $limit = 5): array
+    {
+        $rows = $this->where('is_published', 1)
+            ->where('is_exclusive', 1)
+            ->orderBy('created_at', 'DESC')
+            ->orderBy('id', 'DESC')
+            ->findAll($limit);
 
         $out = [];
         foreach ($rows as $row) {

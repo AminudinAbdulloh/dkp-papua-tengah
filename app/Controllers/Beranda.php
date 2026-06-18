@@ -90,11 +90,22 @@ class Beranda extends BaseController
             $pager = model(NewsArticleModel::class)->pager;
         }
 
+        $exclusiveNews = [];
+        if (NewsArticleModel::tableReady()) {
+            $settingModel = model(\App\Models\SitePageModel::class);
+            $setting = $settingModel->findBySlug('pengaturan/exclusive-news-limit');
+            $exclusiveLimit = $setting !== null ? (int)$setting['body'] : 5;
+
+            $newsModel = model(NewsArticleModel::class);
+            $exclusiveNews = $newsModel->getExclusiveNews($exclusiveLimit);
+        }
+
         $data = [
-            'menuNavigasi' => $this->berandaModel->getPublicNavigationMenu(),
-            'footerData' => $this->berandaModel->getPublicFooterData(),
-            'newsList' => $newsList,
-            'pager' => $pager,
+            'menuNavigasi'  => $this->berandaModel->getPublicNavigationMenu(),
+            'footerData'    => $this->berandaModel->getPublicFooterData(),
+            'newsList'      => $newsList,
+            'exclusiveNews' => $exclusiveNews,
+            'pager'         => $pager,
             'pageData' => [
                 'title' => 'Berita',
                 'description' => 'Informasi dan kegiatan terbaru Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',

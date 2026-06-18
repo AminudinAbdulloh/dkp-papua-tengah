@@ -203,6 +203,268 @@
 
 
 /* ------------------------------------------------------------
+   Exclusive News Glassmorphism Slider Card
+   ------------------------------------------------------------ */
+
+/* Wrapper card */
+.exc-card {
+    position: relative;
+    border-radius: 1.25rem;
+    background: rgba(6, 28, 60, 0.55);
+    backdrop-filter: blur(18px) saturate(1.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    min-height: 240px;
+    /* padding sama di kiri, atas, dan bawah — sisi kanan dibuka untuk panel info */
+    padding: 1.25rem 0 1.25rem 1.25rem;
+}
+
+/* Each slide — hidden by default */
+.exc-slide {
+    display: none;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+    min-height: 240px;
+}
+
+/* Active slide */
+.exc-slide--active {
+    display: flex;
+    animation: excFadeIn 0.65s ease-out;
+}
+
+@keyframes excFadeIn {
+    from { opacity: 0; transform: translateX(12px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Left: image wrapper */
+.exc-img-wrap {
+    flex: 0 0 45%;
+    max-width: 45%;
+    display: block;
+    overflow: hidden;
+    /* semua sudut sama — gambar mengambang di dalam card */
+    border-radius: 0.85rem;
+}
+
+.exc-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.exc-img-wrap:hover .exc-img {
+    transform: scale(1.05);
+}
+
+/* Right: info panel */
+.exc-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.5rem 1.75rem 1.5rem 1.5rem;
+    gap: 0.6rem;
+}
+
+/* Badge */
+.exc-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    width: fit-content;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.4);
+}
+
+/* Title link */
+.exc-title {
+    color: #fff;
+    font-size: 1.05rem;
+    font-weight: 700;
+    line-height: 1.45;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    transition: color 0.2s ease;
+}
+
+.exc-title:hover {
+    color: #93c5fd;
+}
+
+/* Date */
+.exc-date {
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.78rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+/* Read button */
+.exc-read-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #93c5fd;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 1px solid rgba(147, 197, 253, 0.35);
+    border-radius: 999px;
+    padding: 0.3rem 0.9rem;
+    width: fit-content;
+    transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+    margin-top: 0.25rem;
+}
+
+.exc-read-btn:hover {
+    background: rgba(147, 197, 253, 0.15);
+    color: #bfdbfe;
+    border-color: rgba(147, 197, 253, 0.6);
+}
+
+/* Arrow buttons */
+.exc-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+    z-index: 20;
+    transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.exc-arrow--prev { left: 0.6rem; }
+.exc-arrow--next { right: 0.6rem; }
+
+.exc-card:hover .exc-arrow {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.exc-arrow:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+    transform: translateY(-50%) scale(1.1);
+}
+
+/* Pagination dots */
+.exc-dots {
+    position: absolute;
+    bottom: 0.75rem;
+    /* Sejajar dengan panel info: card-padding(2.5rem) + lebar-gambar(45%) + info-padding(1.5rem) */
+    left: calc(2.5rem + 45% + 1.5rem);
+    transform: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    z-index: 20;
+}
+
+.exc-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: none;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.3s ease, width 0.3s ease;
+}
+
+.exc-dot--active {
+    background: #f59e0b;
+    width: 22px;
+    border-radius: 4px;
+    transform: none;
+}
+
+.exc-dot:hover:not(.exc-dot--active) {
+    background: rgba(255, 255, 255, 0.65);
+    transform: scale(1.2);
+}
+
+/* Responsive — stack vertically on mobile */
+@media (max-width: 575.98px) {
+    .exc-card {
+        min-height: 220px;
+        border-radius: 1rem;
+        /* pada mobile: padding seragam semua sisi */
+        padding: 0.85rem;
+    }
+
+    .exc-slide {
+        flex-direction: column;
+        min-height: 220px;
+    }
+
+    .exc-img-wrap {
+        flex: 0 0 140px;
+        max-width: 100%;
+        /* mobile: gambar di atas info, sudut atas saja yang rounded */
+        border-radius: 0.65rem 0.65rem 0 0;
+    }
+
+    .exc-info {
+        padding: 1rem 0.5rem 1.75rem;
+        gap: 0.5rem;
+    }
+
+    .exc-title {
+        font-size: 0.9rem;
+        -webkit-line-clamp: 2;
+    }
+
+    .exc-arrow {
+        width: 28px;
+        height: 28px;
+        font-size: 0.75rem;
+        opacity: 0.75;
+        pointer-events: auto;
+    }
+}
+
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .exc-card { min-height: 220px; }
+    .exc-img-wrap { flex: 0 0 40%; max-width: 40%; }
+    .exc-title { font-size: 0.95rem; }
+    .exc-info { padding: 1.1rem 1.2rem 1.5rem; }
+}
+
+/* ------------------------------------------------------------
    Section Shared
    ------------------------------------------------------------ */
 .section-padding {
