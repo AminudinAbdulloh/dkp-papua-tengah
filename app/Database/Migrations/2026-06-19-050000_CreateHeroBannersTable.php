@@ -22,11 +22,6 @@ class CreateHeroBannersTable extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 512,
             ],
-            'link_url' => [
-                'type'       => 'VARCHAR',
-                'constraint' => 512,
-                'null'       => true,
-            ],
             'sort_order' => [
                 'type'       => 'INT',
                 'unsigned'   => true,
