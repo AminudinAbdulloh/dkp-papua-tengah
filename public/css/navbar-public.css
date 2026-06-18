@@ -4,7 +4,8 @@ html {
     margin: 0;
     padding: 0;
     width: 100%;
-    background-color: var(--color-white); /* Default for most sections */
+    background-color: var(--color-white);
+    /* Default for most sections */
 }
 
 body {

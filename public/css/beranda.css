@@ -7,7 +7,9 @@
    ------------------------------------------------------------ */
 .hero-section {
     position: relative;
-    height: 600px;
+    width: 100%;
+    aspect-ratio: 24 / 10;
+    height: auto;
     overflow: hidden;
 }
 
@@ -78,7 +80,7 @@
 .hero-carousel-wrap .carousel,
 .hero-carousel-wrap .carousel-inner,
 .hero-carousel-wrap .carousel-item {
-    height: 600px;
+    height: 100%;
 }
 
 .hero-slide-content {
@@ -634,7 +636,7 @@
    ------------------------------------------------------------ */
 @media (max-width: 991.98px) {
     .hero-section {
-        height: 600px;
+        height: auto;
         min-height: unset;
         padding: 0;
     }
@@ -646,7 +648,7 @@
     }
 
     .hero-slide-content {
-        padding-top: 80px;
+        padding-top: 15px;
     }
 
     .hero-overlay {
@@ -657,16 +659,27 @@
     }
 
     .hero-section .display-4 {
-        font-size: 2rem;
+        font-size: 1.5rem;
+        margin-bottom: 0.35rem !important;
     }
 
     .hero-section .lead {
-        font-size: 1rem !important;
+        font-size: 0.85rem !important;
+    }
+
+    .hero-section p.fs-5 {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+
+    .hero-section .btn-lg {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.8rem !important;
     }
 
     .hero-section .btn {
-        width: 100%;
-        display: flex;
+        width: auto;
+        display: inline-flex;
         align-items: center;
         justify-content: center;
         gap: 0.5rem;
@@ -688,47 +701,53 @@
 
 @media (max-width: 575.98px) {
     .hero-section {
-        height: 560px;
+        height: auto;
         min-height: unset;
         padding: 0;
         overflow: hidden;
     }
 
     .hero-slide-content {
-        padding-top: 60px;
+        padding-top: 5px;
     }
 
     .hero-carousel-btn {
-        width: 40px;
-        height: 40px;
-        opacity: 1 !important;
-        /* Always show on mobile for better UX */
+        width: 26px;
+        height: 26px;
+        opacity: 0.8 !important;
     }
 
     .carousel-control-prev.hero-carousel-btn {
-        left: 10px;
+        left: 5px;
     }
 
     .carousel-control-next.hero-carousel-btn {
-        right: 10px;
+        right: 5px;
     }
 
     .hero-section .display-4 {
-        font-size: 1.75rem;
+        font-size: 0.85rem;
+        margin-bottom: 0.15rem !important;
     }
 
     .hero-news-title {
-        font-size: 1.5rem;
+        font-size: 0.8rem;
+        margin-bottom: 0.15rem !important;
+    }
+
+    .hero-news-excerpt {
+        font-size: 0.65rem;
+        margin-bottom: 0.35rem !important;
     }
 
     .hero-section p.fs-5 {
-        font-size: 1rem !important;
-        margin-bottom: 2rem !important;
+        font-size: 0.65rem !important;
+        margin-bottom: 0.35rem !important;
     }
 
     .badge-custom {
-        font-size: 0.75rem;
-        padding: 0.4rem 0.8rem;
+        font-size: 0.55rem;
+        padding: 0.15rem 0.35rem;
     }
 
     .service-card,
@@ -751,7 +770,7 @@
 
 @media (min-width: 1700px) {
     .hero-section {
-        height: 900px;
+        height: auto;
     }
 }
 
