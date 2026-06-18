@@ -85,13 +85,13 @@
                         <li>
                             <a href="https://portaldata.kkp.go.id/login" target="_blank" rel="noopener noreferrer">
                                 <i class="bi bi-chevron-right"></i>
-                                Login Kusuka
+                                Login KUSUKA
                             </a>
                         </li>
                         <li>
                             <a href="https://portaldata.kkp.go.id/register" target="_blank" rel="noopener noreferrer">
                                 <i class="bi bi-chevron-right"></i>
-                                Register Kusuka
+                                Register KUSUKA
                             </a>
                         </li>
                         <li>
