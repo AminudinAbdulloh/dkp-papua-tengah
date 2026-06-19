@@ -3,8 +3,8 @@
 <?= $this->section('title') ?><?= esc($pageData['title'] ?? 'Pengumuman') ?> - Dinas Kelautan dan Perikanan Papua Tengah<?= $this->endSection() ?>
 
 <?= $this->section('styles') ?>
-<link rel="stylesheet" href="<?= base_url('css/public-page.css') ?>">
-<link rel="stylesheet" href="<?= base_url('css/informasi-publik.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/public-page.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/informasi-publik.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

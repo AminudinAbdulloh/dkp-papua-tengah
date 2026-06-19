@@ -3,7 +3,7 @@
 <?= $this->section('title') ?>Pusat Unduhan - Dinas Kelautan dan Perikanan Papua Tengah<?= $this->endSection() ?>
 
 <?= $this->section('styles') ?>
-<link rel="stylesheet" href="<?= base_url('css/public-page.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/public-page.css') ?>">
 <style>
     .hover-lift {
         transition: transform 0.2s ease, box-shadow 0.2s ease;

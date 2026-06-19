@@ -4,8 +4,8 @@
 Tengah<?= $this->endSection() ?>
 
 <?= $this->section('styles') ?>
-<link rel="stylesheet" href="<?= base_url('css/public-page.css') ?>">
-<link rel="stylesheet" href="<?= base_url('css/beranda.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/public-page.css') ?>">
+<link rel="stylesheet" href="<?= asset('css/beranda.css') ?>">
 <?= $this->endSection() ?>
 
 <?= $this->section('content') ?>

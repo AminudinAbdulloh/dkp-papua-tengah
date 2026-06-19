@@ -7,12 +7,12 @@
     <title><?= $this->renderSection('title') ?: 'Dinas Kelautan dan Perikanan - Papua Tengah' ?></title>
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="<?= base_url('css/bootstrap.min.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('bootstrap-icons/bootstrap-icons.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/theme-tokens.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/navbar-public.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/footer-public.css') ?>">
-    <link rel="stylesheet" href="<?= base_url('css/scroll-to-top.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/bootstrap.min.css') ?>">
+    <link rel="stylesheet" href="<?= asset('bootstrap-icons/bootstrap-icons.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/theme-tokens.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/navbar-public.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/footer-public.css') ?>">
+    <link rel="stylesheet" href="<?= asset('css/scroll-to-top.css') ?>">
 
     <!-- Page-specific CSS -->
     <?= $this->renderSection('styles') ?>
@@ -34,7 +34,7 @@
     </a>
 
     <!-- Bootstrap JS -->
-    <script src="<?= base_url('js/bootstrap.bundle.min.js') ?>"></script>
+    <script src="<?= asset('js/bootstrap.bundle.min.js') ?>"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
