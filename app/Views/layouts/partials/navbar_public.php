@@ -82,10 +82,12 @@
                     <?php endforeach ?>
                 </ul>
                 <div class="d-flex align-items-center gap-2 navbar-actions">
+                    <img src="<?= base_url('images/logo_berakhlak.jpeg') ?>"
+                         alt="Logo BerAKHLAK"
+                         class="navbar-logo-badge">
                     <img src="<?= base_url('images/logo_tangguh.jpg') ?>"
                          alt="Logo Tangguh"
-                         class="navbar-logo-tangguh"
-                         style="height:48px;width:auto;object-fit:contain;border-radius:6px;">
+                         class="navbar-logo-badge">
                 </div>
 
             </div>

@@ -43,6 +43,14 @@ body {
     margin-top: 0.5rem;
 }
 
+.navbar-logo-badge {
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 5px;
+    flex-shrink: 0;
+}
+
 .submenu-toggle i {
     transition: transform 0.2s ease;
 }
@@ -93,8 +101,8 @@ body {
         align-items: center;
     }
 
-    .navbar-logo-tangguh {
-        height: 52px;
+    .navbar-logo-badge {
+        height: 40px;
     }
 
     .navbar-actions {
@@ -147,8 +155,8 @@ body {
         padding-right: 0.4rem !important;
     }
 
-    .navbar-logo-tangguh {
-        height: 38px !important;
+    .navbar-logo-badge {
+        height: 32px !important;
     }
 }
 
@@ -250,7 +258,7 @@ body {
     .navbar-actions {
         margin-top: 0.75rem;
         width: 100%;
-        justify-content: space-between;
+        justify-content: flex-start;
     }
 
     .navbar-actions .btn-primary {
