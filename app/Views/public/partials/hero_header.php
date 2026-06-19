@@ -78,6 +78,9 @@ if ($heroBackgroundImage !== '') {
             <div class="hero-text-block text-start mb-0">
                 <div class="hero-title-line"></div>
                 <h1><?= esc($pageData['title'] ?? 'Berita') ?></h1>
+                <?php if (!empty($pageData['description'])): ?>
+                    <p class="mb-0"><?= esc($pageData['description']) ?></p>
+                <?php endif; ?>
                 <div class="hero-dots" aria-hidden="true">
                     <span></span><span></span><span></span>
                 </div>

@@ -119,6 +119,7 @@ class Beranda extends BaseController
             'pager'         => $pager,
             'pageData' => [
                 'title' => 'Berita',
+                'description' => 'Informasi dan kegiatan terbaru Dinas Kelautan dan Perikanan Provinsi Papua Tengah.',
                 'breadcrumbs' => [
                     ['label' => 'Beranda', 'href' => base_url('/beranda')],
                     ['label' => 'Berita', 'href' => null],
