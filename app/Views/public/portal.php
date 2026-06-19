@@ -50,12 +50,10 @@
         }
 
         $popupMenus = [
-            'profil'    => ['title' => 'Profil',    'icon' => 'bi-building',         'menu' => $menuMap['profil']    ?? null],
-            'informasi' => ['title' => 'Informasi', 'icon' => 'bi-info-circle',      'menu' => $menuMap['informasi'] ?? null],
-            'publikasi' => ['title' => 'Publikasi', 'icon' => 'bi-journal-richtext',  'menu' => $menuMap['publikasi'] ?? null],
-            'galeri'    => ['title' => 'Galeri',    'icon' => 'bi-images',           'menu' => $menuMap['galeri']    ?? null],
-            'layanan'   => ['title' => 'Layanan',   'icon' => 'bi-grid-3x3-gap',     'menu' => $menuMap['layanan']   ?? null],
-            'informasi publik' => ['title' => 'Informasi Publik', 'icon' => 'bi-file-earmark-text', 'menu' => $menuMap['informasi publik'] ?? null],
+            'berita'     => ['title' => 'Berita',     'icon' => 'bi-newspaper',    'menu' => $menuMap['berita']     ?? null],
+            'pengumuman' => ['title' => 'Pengumuman', 'icon' => 'bi-megaphone',    'menu' => $menuMap['pengumuman'] ?? null],
+            'galeri'     => ['title' => 'Galeri',     'icon' => 'bi-images',       'menu' => $menuMap['galeri']     ?? null],
+            'layanan'    => ['title' => 'Layanan',    'icon' => 'bi-grid-3x3-gap', 'menu' => $menuMap['layanan']    ?? null],
         ];
         ?>
 
@@ -147,40 +145,43 @@
 
         <!-- Menu Akses Cepat (kecil) -->
         <div class="portal-grid portal-grid-quick" role="navigation" aria-label="Menu Akses Cepat Portal">
-            <!-- Dropdown Menus -->
-            <?php foreach ($popupMenus as $key => $popup) : ?>
+            <?php foreach ($popupMenus as $popup) :
+                $m = $popup['menu'];
+                $hasDropdown = $m !== null && !empty($m['submenu']);
+            ?>
+            <?php if ($hasDropdown) : ?>
             <div class="portal-item portal-item--quick portal-item-has-dropdown" tabindex="0" role="button" aria-haspopup="true" title="<?= $popup['title'] ?>">
                 <div class="portal-icon-wrap">
                     <i class="bi <?= $popup['icon'] ?>"></i>
                 </div>
                 <span class="portal-item-label"><?= $popup['title'] ?></span>
 
-                <!-- Dropdown (Speech Box) -->
                 <div class="portal-dropdown">
                     <div class="portal-dropdown-header">
                         <i class="bi <?= $popup['icon'] ?>"></i>
                         <span><?= $popup['title'] ?></span>
                     </div>
                     <ul class="portal-dropdown-list">
-                        <?php 
-                        $m = $popup['menu'];
-                        if ($m !== null && !empty($m['submenu'])) : 
-                            foreach ($m['submenu'] as $sub) : ?>
-                                <li>
-                                    <a href="<?= esc($sub['link']) ?>">
-                                        <i class="bi bi-chevron-right"></i>
-                                        <?= esc($sub['nama']) ?>
-                                    </a>
-                                </li>
-                            <?php endforeach;
-                        elseif ($m !== null) : ?>
-                            <li><a href="<?= esc($m['link']) ?>"><i class="bi bi-chevron-right"></i><?= esc($m['nama']) ?></a></li>
-                        <?php else : ?>
-                            <li><span class="portal-dropdown-empty">Menu belum tersedia</span></li>
-                        <?php endif; ?>
+                        <?php foreach ($m['submenu'] as $sub) : ?>
+                            <li>
+                                <a href="<?= esc($sub['link']) ?>">
+                                    <i class="bi bi-chevron-right"></i>
+                                    <?= esc($sub['nama']) ?>
+                                </a>
+                            </li>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
+            <?php else : ?>
+            <a href="<?= esc($m['link'] ?? '#') ?>"
+               class="portal-item portal-item--quick" title="<?= $popup['title'] ?>">
+                <div class="portal-icon-wrap">
+                    <i class="bi <?= $popup['icon'] ?>"></i>
+                </div>
+                <span class="portal-item-label"><?= $popup['title'] ?></span>
+            </a>
+            <?php endif; ?>
             <?php endforeach; ?>
 
         </div>
