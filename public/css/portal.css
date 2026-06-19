@@ -463,17 +463,42 @@ body[data-theme="dark"] .portal-item.active .portal-icon-wrap i {
 
 
 /* ─── Responsive ──────────────────────────────────────── */
+
+/* Tablet (641px–991px): Menu Utama 2×2 */
+@media (min-width: 641px) and (max-width: 991px) {
+    .portal-grid-main {
+        gap: 18px 14px;
+        max-width: 520px;
+    }
+
+    .portal-item--main {
+        width: calc(50% - 10px);
+    }
+
+    .portal-item--main .portal-icon-wrap {
+        width: 96px;
+        height: 96px;
+        border-radius: 24px;
+    }
+
+    .portal-item--main .portal-item-label {
+        font-size: 0.88rem;
+    }
+}
+
 @media (max-width: 640px) {
     .portal-grid {
         gap: 14px 10px;
     }
 
-    .portal-item {
-        width: calc(33.33% - 10px);
+    .portal-grid-quick {
+        gap: 10px 6px;
+        margin-top: 0;
     }
 
     .portal-item--main {
         width: calc(50% - 10px);
+        max-width: none;
     }
 
     .portal-item--main .portal-icon-wrap {
@@ -486,14 +511,28 @@ body[data-theme="dark"] .portal-item.active .portal-icon-wrap i {
         font-size: 0.86rem;
     }
 
-    .portal-icon-wrap {
-        width: 62px;
-        height: 62px;
-        border-radius: 15px;
+    /* Menu Akses Cepat — lebih kecil di mobile */
+    .portal-item--quick {
+        width: calc(25% - 8px);
+        min-width: 64px;
+        gap: 6px;
     }
 
-    .portal-icon-wrap i {
-        font-size: 1.65rem;
+    .portal-item--quick .portal-icon-wrap {
+        width: 48px;
+        height: 48px;
+        border-radius: 13px;
+        padding: 5px;
+    }
+
+    .portal-item--quick .portal-icon-wrap i {
+        font-size: 1.35rem;
+    }
+
+    .portal-item--quick .portal-item-label {
+        font-size: 0.62rem;
+        letter-spacing: 0.02em;
+        line-height: 1.2;
     }
 
     .portal-title {
@@ -521,8 +560,37 @@ body[data-theme="dark"] .portal-item.active .portal-icon-wrap i {
 }
 
 @media (max-width: 400px) {
-    .portal-icon-wrap {
-        width: 52px;
-        height: 52px;
+    .portal-grid-quick {
+        gap: 8px 4px;
+    }
+
+    .portal-item--quick {
+        width: calc(25% - 6px);
+        min-width: 56px;
+    }
+
+    .portal-item--quick .portal-icon-wrap {
+        width: 42px;
+        height: 42px;
+        border-radius: 11px;
+        padding: 4px;
+    }
+
+    .portal-item--quick .portal-icon-wrap i {
+        font-size: 1.15rem;
+    }
+
+    .portal-item--quick .portal-item-label {
+        font-size: 0.56rem;
+    }
+
+    .portal-item--main .portal-icon-wrap {
+        width: 76px;
+        height: 76px;
+        border-radius: 20px;
+    }
+
+    .portal-item--main .portal-item-label {
+        font-size: 0.78rem;
     }
 }
