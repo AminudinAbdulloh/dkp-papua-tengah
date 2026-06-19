@@ -75,101 +75,230 @@ if ($heroBackgroundImage !== '') {
         <?php endif ?>
 
         <?php if (!empty($exclusiveNews)): ?>
-            <div class="row align-items-center g-4 mt-1">
-                <!-- Left Column: Title & Description -->
-                <div class="col-lg-5">
-                    <div class="hero-text-block text-start mb-0">
-                        <div class="hero-title-line"></div>
-                        <h1><?= esc($pageData['title'] ?? 'Berita') ?></h1>
-                        <p class="mb-4"><?= esc($pageData['description'] ?? '') ?></p>
-                        <div class="hero-dots" aria-hidden="true">
-                            <span></span><span></span><span></span>
+            <div class="hero-text-block text-start mb-0">
+                <div class="hero-title-line"></div>
+                <h1><?= esc($pageData['title'] ?? 'Berita') ?></h1>
+                <div class="hero-dots" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="exc-carousel-wrap">
+                <div class="exc-carousel" id="exclusiveCarousel" data-count="<?= count($exclusiveNews) ?>">
+                    <div class="exc-viewport">
+                        <div class="exc-track" id="excTrack">
+                            <?php foreach ($exclusiveNews as $item): ?>
+                                <article class="exc-item">
+                                    <div class="exc-card">
+                                        <a href="<?= base_url('berita/' . (int) $item['id']) ?>" class="exc-img-wrap text-decoration-none">
+                                            <img src="<?= esc($item['image']) ?>" alt="<?= esc($item['title']) ?>" class="exc-img" loading="lazy">
+                                        </a>
+                                        <div class="exc-info">
+                                            <span class="exc-badge">
+                                                <i class="bi bi-star-fill me-1" style="font-size:0.65rem;"></i>Berita Eksklusif
+                                            </span>
+                                            <a href="<?= base_url('berita/' . (int) $item['id']) ?>" class="exc-title text-decoration-none">
+                                                <?= esc($item['title']) ?>
+                                            </a>
+                                            <p class="exc-date">
+                                                <i class="bi bi-calendar3 me-1"></i>
+                                                <?= esc($item['date']) ?>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            <?php endforeach; ?>
                         </div>
                     </div>
-                </div>
-                <!-- Right Column: Exclusive Glassmorphism Slider Card -->
-                <div class="col-lg-7">
-                    <div class="exc-card" id="exclusiveSlider">
-                        <!-- Slides -->
-                        <?php foreach ($exclusiveNews as $index => $item): ?>
-                            <div class="exc-slide<?= $index === 0 ? ' exc-slide--active' : '' ?>" data-index="<?= $index ?>">
-                                <!-- Left: Image -->
-                                <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-img-wrap text-decoration-none">
-                                    <img src="<?= esc($item['image']) ?>" alt="<?= esc($item['title']) ?>" class="exc-img" loading="lazy">
-                                </a>
-                                <!-- Right: Info -->
-                                <div class="exc-info">
-                                    <span class="exc-badge">
-                                        <i class="bi bi-star-fill me-1" style="font-size:0.65rem;"></i>Berita Eksklusif
-                                    </span>
-                                    <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-title text-decoration-none">
-                                        <?= esc($item['title']) ?>
-                                    </a>
-                                    <p class="exc-date">
-                                        <i class="bi bi-calendar3 me-1"></i>
-                                        <?= esc($item['date']) ?>
-                                    </p>
-                                    <a href="<?= base_url('berita/' . (int)$item['id']) ?>" class="exc-read-btn">
-                                        Baca Selengkapnya <i class="bi bi-arrow-right ms-1"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        <?php endforeach; ?>
 
-                        <?php if (count($exclusiveNews) > 1): ?>
-                            <!-- Prev / Next Arrows -->
-                            <button class="exc-arrow exc-arrow--prev" id="excPrev" aria-label="Sebelumnya">
-                                <i class="bi bi-chevron-left"></i>
-                            </button>
-                            <button class="exc-arrow exc-arrow--next" id="excNext" aria-label="Berikutnya">
-                                <i class="bi bi-chevron-right"></i>
-                            </button>
-                            <!-- Pagination Dots -->
-                            <div class="exc-dots" id="excDots">
-                                <?php foreach ($exclusiveNews as $index => $item): ?>
-                                    <button class="exc-dot<?= $index === 0 ? ' exc-dot--active' : '' ?>"
-                                            data-to="<?= $index ?>" aria-label="Slide <?= $index + 1 ?>"></button>
-                                <?php endforeach; ?>
-                            </div>
-                        <?php endif; ?>
-                    </div>
+                    <?php if (count($exclusiveNews) > 1): ?>
+                        <button class="exc-arrow exc-arrow--prev" id="excPrev" type="button" aria-label="Sebelumnya">
+                            <i class="bi bi-chevron-left"></i>
+                        </button>
+                        <button class="exc-arrow exc-arrow--next" id="excNext" type="button" aria-label="Berikutnya">
+                            <i class="bi bi-chevron-right"></i>
+                        </button>
+                        <div class="exc-dots" id="excDots" role="tablist" aria-label="Navigasi berita eksklusif"></div>
+                    <?php endif; ?>
                 </div>
             </div>
 
             <script>
             (function() {
                 document.addEventListener('DOMContentLoaded', function () {
-                    const slides  = document.querySelectorAll('#exclusiveSlider .exc-slide');
-                    const dots    = document.querySelectorAll('#excDots .exc-dot');
-                    const btnPrev = document.getElementById('excPrev');
-                    const btnNext = document.getElementById('excNext');
-                    if (!slides.length) return;
+                    const carousel = document.getElementById('exclusiveCarousel');
+                    const track    = document.getElementById('excTrack');
+                    const btnPrev  = document.getElementById('excPrev');
+                    const btnNext  = document.getElementById('excNext');
+                    const dotsWrap = document.getElementById('excDots');
+                    if (!carousel || !track) return;
 
-                    let current = 0;
-                    let timer   = null;
-                    const INTERVAL = 5000;
+                    let timer         = null;
+                    let logicalIndex  = 0;
+                    let physicalIndex = 0;
+                    let realCount     = 0;
+                    let isAnimating   = false;
+                    const INTERVAL    = 5000;
 
-                    function goTo(n) {
-                        slides[current].classList.remove('exc-slide--active');
-                        if (dots[current]) dots[current].classList.remove('exc-dot--active');
-                        current = (n + slides.length) % slides.length;
-                        slides[current].classList.add('exc-slide--active');
-                        if (dots[current]) dots[current].classList.add('exc-dot--active');
+                    function visibleCount() {
+                        if (window.innerWidth < 576) return 1;
+                        if (window.innerWidth < 992) return 2;
+                        return 3;
+                    }
+
+                    function originals() {
+                        return Array.from(track.querySelectorAll('.exc-item:not(.exc-item--clone)'));
+                    }
+
+                    function removeClones() {
+                        track.querySelectorAll('.exc-item--clone').forEach((el) => el.remove());
+                    }
+
+                    function buildClones() {
+                        removeClones();
+                        const items = originals();
+                        realCount = items.length;
+                        const vis = visibleCount();
+
+                        if (realCount <= vis) return;
+
+                        for (let i = realCount - vis; i < realCount; i++) {
+                            const clone = items[i].cloneNode(true);
+                            clone.classList.add('exc-item--clone');
+                            clone.setAttribute('aria-hidden', 'true');
+                            track.insertBefore(clone, track.firstChild);
+                        }
+
+                        for (let i = 0; i < vis; i++) {
+                            const clone = items[i].cloneNode(true);
+                            clone.classList.add('exc-item--clone');
+                            clone.setAttribute('aria-hidden', 'true');
+                            track.appendChild(clone);
+                        }
+                    }
+
+                    function stepSize() {
+                        const item = track.querySelector('.exc-item');
+                        if (!item) return 0;
+                        const styles = getComputedStyle(track);
+                        const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+                        return item.offsetWidth + gap;
+                    }
+
+                    function translateTo(index, animate) {
+                        if (!animate) track.style.transition = 'none';
+                        track.style.transform = 'translateX(-' + (index * stepSize()) + 'px)';
+                        if (!animate) {
+                            track.offsetHeight;
+                            track.style.transition = '';
+                        }
+                    }
+
+                    function syncDots() {
+                        if (!dotsWrap) return;
+                        dotsWrap.querySelectorAll('.exc-dot').forEach((dot, idx) => {
+                            dot.classList.toggle('exc-dot--active', idx === logicalIndex);
+                        });
+                    }
+
+                    function renderDots() {
+                        if (!dotsWrap) return;
+                        dotsWrap.innerHTML = '';
+                        for (let i = 0; i < realCount; i++) {
+                            const dot = document.createElement('button');
+                            dot.type = 'button';
+                            dot.className = 'exc-dot' + (i === logicalIndex ? ' exc-dot--active' : '');
+                            dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+                            dot.addEventListener('click', () => { goToLogical(i); resetAuto(); });
+                            dotsWrap.appendChild(dot);
+                        }
+                    }
+
+                    function updateArrows() {
+                        const showNav = realCount > visibleCount();
+                        if (btnPrev) btnPrev.style.display = showNav ? '' : 'none';
+                        if (btnNext) btnNext.style.display = showNav ? '' : 'none';
+                        if (dotsWrap) dotsWrap.style.display = showNav ? '' : 'none';
+                    }
+
+                    function goToLogical(index, animate) {
+                        if (realCount <= visibleCount()) return;
+                        logicalIndex = ((index % realCount) + realCount) % realCount;
+                        physicalIndex = visibleCount() + logicalIndex;
+                        translateTo(physicalIndex, animate !== false);
+                        syncDots();
+                    }
+
+                    function goNext() {
+                        if (realCount <= visibleCount() || isAnimating) return;
+
+                        if (logicalIndex >= realCount - 1) {
+                            isAnimating = true;
+                            physicalIndex++;
+                            logicalIndex = 0;
+                            translateTo(physicalIndex, true);
+                            track.addEventListener('transitionend', onWrapForward, { once: true });
+                        } else {
+                            logicalIndex++;
+                            physicalIndex++;
+                            translateTo(physicalIndex, true);
+                            syncDots();
+                        }
+                    }
+
+                    function onWrapForward(e) {
+                        if (e.target !== track || e.propertyName !== 'transform') return;
+                        isAnimating = false;
+                        physicalIndex = visibleCount();
+                        translateTo(physicalIndex, false);
+                        syncDots();
+                    }
+
+                    function goPrev() {
+                        if (realCount <= visibleCount() || isAnimating) return;
+
+                        if (logicalIndex <= 0) {
+                            logicalIndex = realCount - 1;
+                            physicalIndex = visibleCount() - 1;
+                            translateTo(physicalIndex, false);
+                            syncDots();
+                        } else {
+                            logicalIndex--;
+                            physicalIndex--;
+                            translateTo(physicalIndex, true);
+                            syncDots();
+                        }
                     }
 
                     function startAuto() {
-                        if (slides.length < 2) return;
-                        timer = setInterval(() => goTo(current + 1), INTERVAL);
+                        if (realCount <= visibleCount()) return;
+                        timer = setInterval(goNext, INTERVAL);
                     }
 
-                    function resetAuto() { clearInterval(timer); startAuto(); }
+                    function resetAuto() {
+                        clearInterval(timer);
+                        startAuto();
+                    }
 
-                    if (btnPrev) btnPrev.addEventListener('click', () => { goTo(current - 1); resetAuto(); });
-                    if (btnNext) btnNext.addEventListener('click', () => { goTo(current + 1); resetAuto(); });
-                    dots.forEach(dot => {
-                        dot.addEventListener('click', () => { goTo(+dot.dataset.to); resetAuto(); });
-                    });
+                    function refresh() {
+                        buildClones();
+                        logicalIndex = 0;
+                        physicalIndex = visibleCount();
+                        renderDots();
+                        updateArrows();
+                        if (realCount <= visibleCount()) {
+                            translateTo(0, false);
+                        } else {
+                            translateTo(physicalIndex, false);
+                            syncDots();
+                        }
+                    }
 
+                    if (btnPrev) btnPrev.addEventListener('click', () => { goPrev(); resetAuto(); });
+                    if (btnNext) btnNext.addEventListener('click', () => { goNext(); resetAuto(); });
+
+                    window.addEventListener('resize', refresh);
+                    refresh();
                     startAuto();
                 });
             })();
