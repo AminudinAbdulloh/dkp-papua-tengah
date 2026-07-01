@@ -54,12 +54,8 @@ class KontenMedia extends BaseController
         $newName = $file->getRandomName();
         $file->move($targetDir, $newName);
 
-        $scriptName = (string) ($this->request->getServer('SCRIPT_NAME') ?? '');
-        $basePath = str_replace('\\', '/', dirname($scriptName));
-        $basePath = $basePath === '/' ? '' : rtrim($basePath, '/');
-
         return $this->response->setJSON([
-            'location' => $basePath . '/uploads/editor/' . $newName,
+            'location' => '/uploads/editor/' . $newName,
         ]);
     }
 

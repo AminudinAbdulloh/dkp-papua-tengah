@@ -113,16 +113,6 @@ if (! function_exists('safe_admin_html')) {
      */
     function safe_admin_html(string $html): string
     {
-        $req = null;
-        try {
-            $req = service('request');
-        } catch (\Throwable $e) {
-            $req = null;
-        }
-        $scriptName = $req ? (string) ($req->getServer('SCRIPT_NAME') ?? '') : '';
-        $basePath = str_replace('\\', '/', dirname($scriptName));
-        $basePath = $basePath === '/' ? '' : rtrim($basePath, '/');
-
         $html = preg_replace('/<\s*(script|style)\b[^>]*>[\s\S]*?<\s*\/\s*\1\s*>/i', '', $html) ?? $html;
         $html = preg_replace('/\son\w+\s*=\s*("[^"]*"|\'[^\']*\'|[^\s>]+)/i', '', $html) ?? $html;
         $html = sanitize_style_attributes_in_html($html);
@@ -134,7 +124,7 @@ if (! function_exists('safe_admin_html')) {
 
         $html = preg_replace_callback(
             '/<img\s+[^>]*>/i',
-            static function (array $m) use ($basePath): string {
+            static function (array $m): string {
                 $tag = $m[0];
                 if (! preg_match('/\bsrc\s*=\s*("([^"]*)"|\'([^\']*)\')/i', $tag, $sm)) {
                     return '';
@@ -144,11 +134,14 @@ if (! function_exists('safe_admin_html')) {
                 if ($src === '' || preg_match('/^\s*javascript:/i', $src) || str_starts_with(strtolower($src), 'data:')) {
                     return '';
                 }
-                if (str_starts_with($src, 'uploads/editor/')) {
-                    $src = ($basePath !== '' ? $basePath : '') . '/' . $src;
-                } elseif (str_starts_with($src, '/uploads/editor/')) {
-                    $src = ($basePath !== '' ? $basePath : '') . $src;
+
+                // Normalisasi path gambar editor ke bentuk kanonik /uploads/editor/namafile.
+                // Ini memastikan path konsisten di semua environment (lokal XAMPP maupun Hostinger)
+                // sehingga fungsi cleanup_unused_editor_uploads() tidak salah menghapus gambar.
+                if (preg_match('#(?:^|/)uploads/editor/([a-zA-Z0-9._-]+\.(?:png|jpe?g|webp|gif))$#i', $src, $em)) {
+                    $src = '/uploads/editor/' . $em[1];
                 }
+
                 if (! preg_match('#^(https?:)?//#i', $src) && ! str_starts_with($src, '/')) {
                     return '';
                 }
@@ -270,7 +263,9 @@ if (! function_exists('extract_editor_upload_filenames')) {
             return $out;
         }
 
-        if (preg_match_all('#/uploads/editor/([a-zA-Z0-9._-]+\.(?:png|jpe?g|webp|gif))#i', $html, $m)) {
+        // Regex menangkap nama file dari semua varian path uploads/editor:
+        // /uploads/editor/file.jpg, /subdir/uploads/editor/file.jpg, uploads/editor/file.jpg
+        if (preg_match_all('#uploads/editor/([a-zA-Z0-9._-]+\.(?:png|jpe?g|webp|gif))#i', $html, $m)) {
             foreach ($m[1] as $name) {
                 $out[(string) $name] = true;
             }
@@ -359,12 +354,19 @@ if (! function_exists('delete_editor_upload_file')) {
             return true; // sudah tidak ada, anggap berhasil
         }
 
-        // Pastikan file tidak dipakai di konten manapun
-        $model = model(\App\Models\SitePageModel::class);
-        $rows = $model->select('body')->findAll();
-        foreach ($rows as $row) {
+        // Pastikan file tidak dipakai di konten manapun (SitePageModel dan NewsArticleModel)
+        $siteRows = model(\App\Models\SitePageModel::class)->select('body')->findAll();
+        foreach ($siteRows as $row) {
             $body = (string) ($row['body'] ?? '');
-            if (str_contains($body, '/uploads/editor/' . $filename)) {
+            if (str_contains($body, 'uploads/editor/' . $filename)) {
+                return false; // masih dipakai
+            }
+        }
+
+        $newsRows = model(\App\Models\NewsArticleModel::class)->select('content')->findAll();
+        foreach ($newsRows as $row) {
+            $content = (string) ($row['content'] ?? '');
+            if (str_contains($content, 'uploads/editor/' . $filename)) {
                 return false; // masih dipakai
             }
         }
